@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 21:52:55 16-10-2025
+# LAST Modified: 22:4:58 16-10-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -32,7 +32,16 @@
 # +==== END AsperHeader =================+
 #
 services:
-  # Import the backend service definition from the back-end submodule compose file
+  asperguide-database:
+    extends:
+      file: ./back-end/docker-compose.yaml
+      service: asperguide-database
+
+  asperguide-db-cache:
+    extends:
+      file: ./back-end/docker-compose.yaml
+      service: asperguide-db-cache
+
   asperguide-backend:
     extends:
       file: ./back-end/docker-compose.yaml
