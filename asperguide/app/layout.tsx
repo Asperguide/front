@@ -22,7 +22,7 @@
 * PROJECT: AsperHeader
 * FILE: layout.tsx
 * CREATION DATE: 13-10-2025
-* LAST Modified: 9:53:14 14-10-2025
+* LAST Modified: 9:56:56 16-10-2025
 * DESCRIPTION: 
 * layout file
 * /STOP
@@ -51,7 +51,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex flex-1 items-center justify-center">
+        <main className="flex-1 w-full">
           {children}
         </main>
         <Footer />
