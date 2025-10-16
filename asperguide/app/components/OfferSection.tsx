@@ -20,27 +20,40 @@
 * .........#####...#####.........
 * /STOP
 * PROJECT: AsperHeader
-* FILE: page.tsx
-* CREATION DATE: 13-10-2025
-* LAST Modified: 17:1:46 14-10-2025
+* FILE: OfferSection.tsx
+* CREATION DATE: 14-10-2025
+* LAST Modified: 13:22:31 15-10-2025
 * DESCRIPTION: 
-* home page
+* OfferSection component
 * /STOP
 * COPYRIGHT: (c) Asperguide
-* PURPOSE: home
+* PURPOSE: OfferSection
 * // AR
 * +==== END AsperHeader =================+
-*/
+*/ 
 
-import HeroSection from "./components/HeroSection";
-import OffersSection from "./components/OffersSection";
-import "./globals.css";
+import Link from "next/link";
+import Button from "./Button";
 
-export default function Home() {
+interface OfferSectionProps {
+    title: string;
+    price: string;
+    href: string;
+    id?: string;
+}
+
+export default function OfferSection({ title, price, href, id }: OfferSectionProps) {
   return (
-    <div className="w-full flex flex-col">
-      <HeroSection />
-      <OffersSection />
+    <div
+      id={id}
+      className="border rounded-lg p-6 shadow text-center bg-white"
+    >
+      <h3 className="text-xl font-semibold mb-2 text-black">{title}</h3>
+      <p className="text-2xl font-bold mb-4 text-black">{price}</p>
+        <Button href={href}>
+          Voir les détails
+        </Button>
     </div>
   );
 }
+
