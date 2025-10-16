@@ -1,0 +1,7 @@
+# Ignore node modules and build outputs for frontend image context
+node_modules
+.next
+dist
+build
+npm-debug.log
+.env

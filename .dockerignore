@@ -1,0 +1,65 @@
+# 
+# +==== BEGIN AsperHeader =================+
+# LOGO: 
+# ..........####...####..........
+# ......###.....#.#########......
+# ....##........#.###########....
+# ...#..........#.############...
+# ...#..........#.#####.######...
+# ..#.....##....#.###..#...####..
+# .#.....#.##...#.##..##########.
+# #.....##########....##...######
+# #.....#...##..#.##..####.######
+# .#...##....##.#.##..###..#####.
+# ..#.##......#.#.####...######..
+# ..#...........#.#############..
+# ..#...........#.#############..
+# ...##.........#.############...
+# ......#.......#.#########......
+# .......#......#.########.......
+# .........#####...#####.........
+# /STOP
+# PROJECT: AsperHeader
+# FILE: .dockerignore
+# CREATION DATE: 11-10-2025
+# LAST Modified: 19:7:53 11-10-2025
+# DESCRIPTION: 
+# This is the backend server in charge of making the actual website work.
+# /STOP
+# COPYRIGHT: (c) Asperguide
+# PURPOSE: The ignore file for the docker containers specifying the files that are to be ignored during the copy.
+# // AR
+# +==== END AsperHeader =================+
+# 
+# VCS and editors
+.git
+.gitignore
+.vscode
+.idea
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+server_env/
+*.egg-info
+
+# Local runtime & logs
+*.log
+/srv/log/
+
+# Build artifacts & OS
+.DS_Store
+docker/*.tar
+*.swp
+
+# Secrets and envs (do NOT include .env in build context unless intentional)
+.env
+
+# node/python caches etc.
+node_modules/
+dist/
+build/

@@ -1,0 +1,115 @@
+#
+# +==== BEGIN AsperHeader =================+
+# LOGO:
+# ..........####...####..........
+# ......###.....#.#########......
+# ....##........#.###########....
+# ...#..........#.############...
+# ...#..........#.#####.######...
+# ..#.....##....#.###..#...####..
+# .#.....#.##...#.##..##########.
+# #.....##########....##...######
+# #.....#...##..#.##..####.######
+# .#...##....##.#.##..###..#####.
+# ..#.##......#.#.####...######..
+# ..#...........#.#############..
+# ..#...........#.#############..
+# ...##.........#.############...
+# ......#.......#.#########......
+# .......#......#.########.......
+# .........#####...#####.........
+# /STOP
+# PROJECT: AsperHeader
+# FILE: docker-compose.yaml
+# CREATION DATE: 16-10-2025
+# LAST Modified: 21:52:55 16-10-2025
+# DESCRIPTION:
+# This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
+# /STOP
+# COPYRIGHT: (c) Asperguide
+# PURPOSE: The docker compose to spin up the server with it's required environement.
+# // AR
+# +==== END AsperHeader =================+
+#
+services:
+  # Import the backend service definition from the back-end submodule compose file
+  asperguide-backend:
+    extends:
+      file: ./back-end/docker-compose.yaml
+      service: asperguide-backend
+
+  # Frontend service declared here so the compose file itself composes frontend + backend
+  asperguide-frontend:
+    depends_on:
+      - asperguide-backend
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.front
+    image: local_asperguide_frontend
+    container_name: local_asperguide_frontend
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - ./.front.env
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT:-3000}
+      - SOURCE_CODE_FOLDER=${SOURCE_CODE_FOLDER:-asperguide}
+      - SERVER_HOST=${SERVER_HOST:-asperguide-backend}
+      - SERVER_PORT=${SERVER_PORT:-5000}
+    healthcheck:
+      # Use the container's PORT environment variable. Use double-dollar ($$) so
+      # docker-compose does not interpolate the variable at compose-parse time,
+      # leaving it for the container shell to expand from the container env.
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:$${PORT:-3000}/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    volumes:
+      - front_end_data:/app/code
+    networks:
+      - back_to_front
+
+networks:
+  db_back:
+    external: true
+
+  back_to_front:
+    name: "back_to_front"
+    attachable: false
+    internal: true
+    driver: "bridge"
+    labels:
+      com.asperguide_back_to_front.description: "Asperguide Frontend To Backend network."
+      com.asperguide_back_to_front.department: "IT/Networking"
+      com.asperguide_back_to_front.role: "Network in charge of conneting the Frontend instance with the backend instance so that the backend does not require host exposure for the frontend to access it."
+
+volumes:
+  asperguide_database_data:
+    external: true
+    name: "asperguide_database_data"
+  asperguide_server_data:
+    external: true
+    name: "asperguide_server_data"
+  redis_sock:
+    external: true
+    name: "redis_sock"
+  redis_data:
+    external: true
+    name: "redis_data"
+  front_end_data:
+    name: "front_end_data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${SOURCE_CODE_FOLDER:-db/data}
+    labels:
+      com.asperguide_database.description: "Asperguide Database Data"
+      com.asperguide_database.department: "IT/DB"
+      com.asperguide_database.role: "Volume in charge of storing the database cache so that the database persists after the container gets removed."
