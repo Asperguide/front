@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 22:4:58 16-10-2025
+# LAST Modified: 23:29:30 16-10-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -80,16 +80,16 @@ services:
       retries: 3
       start_period: 15s
     volumes:
-      - front_end_data:/app/code
+      - asperguide_front_end_data:/app/code
     networks:
-      - back_to_front
+      - asperguide_back_to_front
 
 networks:
-  db_back:
+  asperguide_db_back:
     external: true
 
-  back_to_front:
-    name: "back_to_front"
+  asperguide_back_to_front:
+    name: "asperguide_back_to_front"
     attachable: false
     internal: true
     driver: "bridge"
@@ -105,14 +105,14 @@ volumes:
   asperguide_server_data:
     external: true
     name: "asperguide_server_data"
-  redis_sock:
+  asperguide_redis_sock:
     external: true
-    name: "redis_sock"
-  redis_data:
+    name: "asperguide_redis_sock"
+  asperguide_redis_data:
     external: true
-    name: "redis_data"
-  front_end_data:
-    name: "front_end_data"
+    name: "asperguide_redis_data"
+  asperguide_front_end_data:
+    name: "asperguide_front_end_data"
     driver: local
     driver_opts:
       type: none
