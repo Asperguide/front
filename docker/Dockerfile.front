@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: Dockerfile.front
 # CREATION DATE: 16-10-2025
-# LAST Modified: 21:50:24 16-10-2025
+# LAST Modified: 20:5:41 02-11-2025
 # DESCRIPTION: 
 # The dockerfile in charge of setting up the required dependencies for the frontend code.
 # /STOP
@@ -36,36 +36,68 @@ FROM node:25-alpine3.21 AS builder
 
 ENV LOCATION=frontend \
     HOME=/app \
+    PRODUCTION="false" \
     SOURCE_CODE_FOLDER="asperguide" \
-    DEST_CODE_FOLDER="${HOME}/code"
+    START_SCRIPT_PATH="/" \
+    START_SCRIPT="${START_SCRIPT_PATH}entrypoint.sh"
 
+# Update the list of packages and add bash
+RUN apk update && apk add bash
+
+# Make sure npm is installed
+RUN if [ ! -f /usr/bin/npm ]; then apk add npm; fi; npm install -g npm;
+
+# Create a shortcut for the npm binary
+RUN ln -s /usr/local/bin/npm /bin/npm
+
+# Create the Home directory (in case it is not present) and move to it
 WORKDIR ${HOME}
 
+# Copy the package.json and package-lock.json (failsafe method)
+COPY ./${SOURCE_CODE_FOLDER}/package.json ${HOME}
+COPY ./${SOURCE_CODE_FOLDER}/package-lock.json ${HOME}
+
+# Check if the required file is present
+RUN if [ ! -f "${HOME}/package.json" ]; then echo "package.json not found"; exit 1; fi
+
 # Install dependencies
-COPY package.json package-lock.json* ./
-COPY yarn.lock* ./
 RUN npm ci --legacy-peer-deps || true
 
 # Copy source
-COPY ./${SOURCE_CODE_FOLDER} ${DEST_CODE_FOLDER}
+COPY ./${SOURCE_CODE_FOLDER} ${HOME}
 
-# Build
-RUN npm run build
-
-# Production image
-FROM node:25-alpine3.21 AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-
-# Install only production dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production --legacy-peer-deps || true
-
-# Copy built app from builder
-COPY --from=builder /app/.next .next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
-COPY --from=builder /app/package.json ./package.json
+# Dump the starter code
+RUN echo '#!/bin/bash' > ${START_SCRIPT} \
+    && echo 'echo "Entering the projects folder..."' >> ${START_SCRIPT} \
+    && echo 'cd ${HOME}' >> ${START_SCRIPT} \
+    && echo '# Setting exit on error' >> ${START_SCRIPT} \
+    && echo 'set -e' >> ${START_SCRIPT} \
+    && echo 'echo "Making sure the dependencies are installed..."' >> ${START_SCRIPT} \
+    && echo 'if [ "\${PRODUCTION}" == "true" ]; then' >> ${START_SCRIPT} \
+    && echo -e '\techo "Installing production dependencies only..."' >> ${START_SCRIPT} \
+    && echo -e '\tnpm install --only=production' >> ${START_SCRIPT} \
+    && echo 'else' >> ${START_SCRIPT} \
+    && echo -e '\techo "Installing all dependencies for development..."' >> ${START_SCRIPT} \
+    && echo -e '\tnpm install' >> ${START_SCRIPT} \
+    && echo 'fi' >> ${START_SCRIPT} \
+    && echo '# Checking if we are in production mode' >> ${START_SCRIPT} \
+    && echo 'if [ "\$PRODUCTION" == "true" ]; then' >> ${START_SCRIPT} \
+    && echo -e '\techo "Building the project..."' >> ${START_SCRIPT} \
+    && echo -e '\texec npm run build' >> ${START_SCRIPT} \
+    && echo -e '\t# disabling exit on error for start' >> ${START_SCRIPT} \
+    && echo -e '\tset +e' >> ${START_SCRIPT} \
+    && echo -e '\techo "Starting the production server..."' >> ${START_SCRIPT} \
+    && echo -e '\texec npm start' >> ${START_SCRIPT} \
+    && echo 'else' >> ${START_SCRIPT} \
+    && echo -e '\techo "Starting in development mode..."' >> ${START_SCRIPT} \
+    && echo -e '\t# disabling exit on error for dev' >> ${START_SCRIPT} \
+    && echo -e '\tset +e' >> ${START_SCRIPT} \
+    && echo -e '\techo "Running the development server..."' >> ${START_SCRIPT} \
+    && echo -e '\texec npm run dev' >> ${START_SCRIPT} \
+    && echo 'fi' >> ${START_SCRIPT} \
+    && echo 'echo "End of script run"' >> ${START_SCRIPT} \
+    && chmod +x ${START_SCRIPT}
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+
+CMD ["chmod +x ${START_SCRIPT} && ${START_SCRIPT}"]

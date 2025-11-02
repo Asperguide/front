@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 23:29:30 16-10-2025
+# LAST Modified: 20:18:42 02-11-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -61,7 +61,7 @@ services:
     env_file:
       - ./.front.env
     environment:
-      - NODE_ENV=production
+      - PRODUCTION="${PRODUCTION:-false}"
       - PORT=${PORT:-3000}
       - SOURCE_CODE_FOLDER=${SOURCE_CODE_FOLDER:-asperguide}
       - SERVER_HOST=${SERVER_HOST:-asperguide-backend}
@@ -80,7 +80,7 @@ services:
       retries: 3
       start_period: 15s
     volumes:
-      - asperguide_front_end_data:/app/code
+      - asperguide_front_end_data:/app
     networks:
       - asperguide_back_to_front
 
@@ -117,7 +117,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${SOURCE_CODE_FOLDER:-db/data}
+      device: ${SOURCE_CODE_FOLDER:-asperguide}
     labels:
       com.asperguide_database.description: "Asperguide Database Data"
       com.asperguide_database.department: "IT/DB"
