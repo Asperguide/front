@@ -4,8 +4,9 @@ name: code_mirrorer
 
 on:
   push:
-    branches-ignore:
-      - "ga-ignore-*"
+    branches:
+      - "prod"
+      - "!ga-ignore-*"
   pull_request:
     branches-ignore:
       - "main"
