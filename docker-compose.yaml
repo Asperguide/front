@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 20:18:42 02-11-2025
+# LAST Modified: 0:1:28 03-11-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -31,31 +31,34 @@
 # // AR
 # +==== END AsperHeader =================+
 #
+
+name: local-asperguide
+
 services:
-  asperguide-database:
+  database:
     extends:
       file: ./back-end/docker-compose.yaml
-      service: asperguide-database
+      service: database
 
-  asperguide-db-cache:
+  db-cache:
     extends:
       file: ./back-end/docker-compose.yaml
-      service: asperguide-db-cache
+      service: db-cache
 
-  asperguide-backend:
+  backend:
     extends:
       file: ./back-end/docker-compose.yaml
-      service: asperguide-backend
+      service: backend
 
   # Frontend service declared here so the compose file itself composes frontend + backend
-  asperguide-frontend:
+  frontend:
     depends_on:
-      - asperguide-backend
+      - backend
     build:
       context: .
       dockerfile: docker/Dockerfile.front
-    image: local_asperguide_frontend
-    container_name: local_asperguide_frontend
+    image: local-asperguide-frontend
+    container_name: local-asperguide-frontend
     ports:
       - "${PORT:-3000}:3000"
     env_file:
@@ -80,39 +83,33 @@ services:
       retries: 3
       start_period: 15s
     volumes:
-      - asperguide_front_end_data:/app
+      - front-end-data:/app
     networks:
-      - asperguide_back_to_front
-
-networks:
-  asperguide_db_back:
-    external: true
-
-  asperguide_back_to_front:
-    name: "asperguide_back_to_front"
-    attachable: false
-    internal: true
-    driver: "bridge"
-    labels:
-      com.asperguide_back_to_front.description: "Asperguide Frontend To Backend network."
-      com.asperguide_back_to_front.department: "IT/Networking"
-      com.asperguide_back_to_front.role: "Network in charge of conneting the Frontend instance with the backend instance so that the backend does not require host exposure for the frontend to access it."
+      - back-to-front
 
 volumes:
-  asperguide_database_data:
+  database-data:
     external: true
-    name: "asperguide_database_data"
-  asperguide_server_data:
+    name: "database-data"
+
+  database-initialisation-data:
     external: true
-    name: "asperguide_server_data"
-  asperguide_redis_sock:
+    name: "database-initialisation-data"
+
+  redis-sock:
     external: true
-    name: "asperguide_redis_sock"
-  asperguide_redis_data:
+    name: "redis-sock"
+
+  redis-data:
     external: true
-    name: "asperguide_redis_data"
-  asperguide_front_end_data:
-    name: "asperguide_front_end_data"
+    name: "redis-data"
+
+  server-data:
+    external: true
+    name: "server-data"
+
+  front-end-data:
+    name: "front-end-data"
     driver: local
     driver_opts:
       type: none
@@ -122,3 +119,17 @@ volumes:
       com.asperguide_database.description: "Asperguide Database Data"
       com.asperguide_database.department: "IT/DB"
       com.asperguide_database.role: "Volume in charge of storing the database cache so that the database persists after the container gets removed."
+
+networks:
+  db-to-back:
+    name: "db-to-back"
+
+  back-to-front:
+    name: "back-to-front"
+    attachable: false
+    internal: true
+    driver: "bridge"
+    labels:
+      com.asperguide_back_to_front.description: "Asperguide Frontend To Backend network."
+      com.asperguide_back_to_front.department: "IT/Networking"
+      com.asperguide_back_to_front.role: "Network in charge of conneting the Frontend instance with the backend instance so that the backend does not require host exposure for the frontend to access it."
