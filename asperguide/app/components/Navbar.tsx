@@ -1,121 +1,78 @@
-/* 
-* +==== BEGIN AsperHeader =================+
-* LOGO: 
-* ..........####...####..........
-* ......###.....#.#########......
-* ....##........#.###########....
-* ...#..........#.############...
-* ...#..........#.#####.######...
-* ..#.....##....#.###..#...####..
-* .#.....#.##...#.##..##########.
-* #.....##########....##...######
-* #.....#...##..#.##..####.######
-* .#...##....##.#.##..###..#####.
-* ..#.##......#.#.####...######..
-* ..#...........#.#############..
-* ..#...........#.#############..
-* ...##.........#.############...
-* ......#.......#.#########......
-* .......#......#.########.......
-* .........#####...#####.........
-* /STOP
-* PROJECT: AsperHeader
-* FILE: Navbar.tsx
-* CREATION DATE: 13-10-2025
-* LAST Modified: 0:6:46 16-10-2025
-* DESCRIPTION: 
-* navbar component
-* /STOP
-* COPYRIGHT: (c) Asperguide
-* PURPOSE: navbar
-* // AR
-* +==== END AsperHeader =================+
-*/
+'use client';
 
-"use client";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const Navbar = () => {
+export default function Navbar() {
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Vérifier l'état d'authentification
-    const auth = localStorage.getItem("auth");
-    setIsAuthenticated(auth === "true");
-
-    // Écoute les changements si besoin (login/logout dans un autre onglet)
-    const handleStorageChange = () => {
-      const authUpdated = localStorage.getItem("auth");
-      console.log("check localstorage:", authUpdated);
-      setIsAuthenticated(authUpdated === "true");
-    };
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => window.removeEventListener("storage", handleStorageChange);
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+    
+    import('bootstrap/dist/js/bootstrap.bundle.min.js');
   }, []);
 
-  // Si on ne sait pas encore si l'utilisateur est connecté, ne rien afficher
-  if (isAuthenticated === null) return null;
+  let navLinks = [];
+  if (pathname.startsWith('/home') || pathname.startsWith('/games') || pathname.startsWith('/guide') || pathname.startsWith('/dashboard') || pathname.startsWith('/rewards')) {
+    navLinks = [
+      { label: 'Home', href: '/home' },
+      { label: 'Game', href: '/games' },
+      { label: 'Guide', href: '/guide' },
+      { label: 'Tableau de bord', href: '/dashboard' },
+      { label: 'Récompenses', href: '/rewards' },
+    ];
+  } else {
+    navLinks = [
+      { label: 'Accueil', href: '/' },
+      { label: 'Nos offres', href: '/offres' },
+      { label: 'Contact', href: '/contact' },
+    ];
+  }
 
-  // Bouton "Connexion" sur ces pages
-  const showLoginButton = ["/", "/login", "/register"].includes(pathname || "");
+  const logoLink = isLoggedIn ? '/home' : '/';
 
   return (
-    <nav className="flex items-center justify-between w-full border-b border-black-200 px-8 py-5 bg-black">
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <span className="text-xl font-bold">Asperguide</span>
-      </div>
+    <nav className="navbar navbar-dark bg-dark">
+      <div className="container-fluid d-flex align-items-center justify-content-between">
+        <Link className="navbar-brand d-flex align-items-center" href={logoLink}>
+          <Image
+            src="/Asperguide_logo_3.png"
+            width={30}
+            height={30}
+            alt="Logo AsperGuide"
+            className="me-2"
+          />
+          <span>AsperGuide</span>
+        </Link>
 
-      {/* Navigation Links */}
-      <ul className="hidden md:flex gap-8 text-white-700 font-medium">
-        <li>
-          <Link href="/">Accueil</Link>
-        </li>
-        <li>
-          <Link href="/dashboard">Tableau de bord</Link>
-        </li>
-        <li>
-          <Link href="/games">Jeux</Link>
-        </li>
-        <li>
-          <Link href="/price">Prix</Link>
-        </li>
-        <li>
-          <Link href="/profil">Profile</Link>
-        </li>
-        <li>
-          <Link href="/guide">Guide</Link>
-        </li>
-        <li>
-          <Link href="/rewards">Récompense</Link>
-        </li>
-      </ul>
+        <ul className="navbar-nav flex-row gap-3">
+          {navLinks.map(link => (
+            <li key={link.href} className="nav-item">
+              <Link
+                className={`nav-link ${pathname === link.href ? 'active' : ''}`}
+                href={link.href}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-      {/* Actions button rigth */}
-      <div className="flex items-center gap-4">
-        {(!isAuthenticated || showLoginButton) ? (
-          <Link
-            href="/login"
-            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-black transition"
-          >
-            Connexion
+        {/* Bouton Connexion ou Profil */}
+        {isLoggedIn ? (
+          <Link href="/profil" className="btn btn-outline-light">
+            Profil
           </Link>
         ) : (
-          <Link
-            href="/profil"
-            className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition"
-          >
-            Profil
+          <Link href="/login" className="btn btn-outline-light">
+            Connexion
           </Link>
         )}
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
