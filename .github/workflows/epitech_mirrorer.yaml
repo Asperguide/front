@@ -1,17 +1,57 @@
+#
+# +==== BEGIN AsperHeader =================+
+# LOGO:
+# ..........####...####..........
+# ......###.....#.#########......
+# ....##........#.###########....
+# ...#..........#.############...
+# ...#..........#.#####.######...
+# ..#.....##....#.###..#...####..
+# .#.....#.##...#.##..##########.
+# #.....##########....##...######
+# #.....#...##..#.##..####.######
+# .#...##....##.#.##..###..#####.
+# ..#.##......#.#.####...######..
+# ..#...........#.#############..
+# ..#...........#.#############..
+# ...##.........#.############...
+# ......#.......#.#########......
+# .......#......#.########.......
+# .........#####...#####.........
+# /STOP
+# PROJECT: AsperHeader
+# FILE: epitech_mirrorer.yaml
+# CREATION DATE: 02-11-2025
+# LAST Modified: 20:56:3 03-11-2025
+# DESCRIPTION:
+# This is the workflow in charge of creating a copy of the project onto the school's repository.
+# /STOP
+# COPYRIGHT: (c) Asperguide
+# PURPOSE: Fully automated mirroring workflow
+# +==== END AsperHeader =================+
+#
 name: code_mirrorer
 
-# version: 1.0.0-commando
+# version: 1.0.2-commando
+# 1.0.1 Create a mirror of the prod onto the main branch so that the destination repository finds the files it desires.
+# 1.0.2 Update the mirror to flatten the backend submodule so that the dependencies are available without requiring the final user to do a git clone --recursive
 
 on:
   push:
     branches:
       - "prod"
+      - "!main"
+      - "!dev"
       - "!ga-ignore-*"
   pull_request:
     branches-ignore:
       - "main"
       - "prod"
       - "ga-ignore-*"
+
+permissions:
+  contents: write
+  id-token: write
 
 env:
   SOURCE: Asperguide/front
@@ -24,11 +64,51 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          submodules: recursive
 
-      - name: Sync main with prod for mirroring
+      - name: Configure Git authentication
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync main with prod and flatten backend
+        run: |
+          git fetch origin
           git checkout prod
-          git branch -f main prod       # create or reset local main to match prod
+          git branch -f main prod
+          git checkout main
+
+          # Flatten backend submodule if it exists
+          # Check if there are any submodules in this repository
+          if [ -f .gitmodules ]; then
+            echo "Submodules found. Starting flatten process..."
+            # Get all submodule paths from .gitmodules
+            # This generates a list like:
+            # backend
+            # frontend
+            submodule_list=$(git config -f .gitmodules --get-regexp path | awk '{ print $2 }')
+            for submodule_path in $submodule_list; do
+              echo "Flattening submodule: $submodule_path"
+              git submodule deinit -f "$submodule_path" || true
+              git rm -f "$submodule_path" || true
+              rm -rf ".git/modules/$submodule_path" || true
+              git checkout prod -- "$submodule_path"
+              git add "$submodule_path"
+            done
+
+            if ! git diff --cached --quiet; then
+              echo "Committing flattened submodules..."
+              git commit -m "[ADD] flattened all submodules on main branch for bot"
+            else
+              echo "No changes to commit."
+            fi
+          else
+            echo "No submodules found. Skipping flatten step."
+          fi
+
+
+          # Push main using GITHUB_TOKEN authentication
+          git push origin main --force
 
       - name: Push the content to the mirror repository
         uses: pixta-dev/repository-mirroring-action@v1
