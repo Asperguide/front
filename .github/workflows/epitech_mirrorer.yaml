@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: epitech_mirrorer.yaml
 # CREATION DATE: 02-11-2025
-# LAST Modified: 20:56:3 03-11-2025
+# LAST Modified: 21:8:58 03-11-2025
 # DESCRIPTION:
 # This is the workflow in charge of creating a copy of the project onto the school's repository.
 # /STOP
@@ -32,9 +32,10 @@
 #
 name: code_mirrorer
 
-# version: 1.0.2-commando
+# version: 1.0.3-commando
 # 1.0.1 Create a mirror of the prod onto the main branch so that the destination repository finds the files it desires.
 # 1.0.2 Update the mirror to flatten the backend submodule so that the dependencies are available without requiring the final user to do a git clone --recursive
+# 1.0.3 Update the flow to be split in 2 jobs, the one that updates the branch "main" and the other that updates the remote repository
 
 on:
   push:
@@ -58,42 +59,38 @@ env:
   MIRROR_URL: "EpitechPromo2027/G-EIP-600-PAR-6-1-eip-henry.letellier"
 
 jobs:
-  push_to_mirror:
+  update_main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure Git authentication
+      - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Sync main with prod and flatten backend
+      - name: Sync main with prod and flatten submodules
         run: |
-          git fetch origin
+          set -e
           git checkout prod
           git branch -f main prod
           git checkout main
 
-          # Flatten backend submodule if it exists
-          # Check if there are any submodules in this repository
           if [ -f .gitmodules ]; then
-            echo "Submodules found. Starting flatten process..."
-            # Get all submodule paths from .gitmodules
-            # This generates a list like:
-            # backend
-            # frontend
-            submodule_list=$(git config -f .gitmodules --get-regexp path | awk '{ print $2 }')
-            for submodule_path in $submodule_list; do
-              echo "Flattening submodule: $submodule_path"
-              git submodule deinit -f "$submodule_path" || true
-              git rm -f "$submodule_path" || true
-              rm -rf ".git/modules/$submodule_path" || true
-              git checkout prod -- "$submodule_path"
-              git add "$submodule_path"
+            echo "Submodules found. Flattening..."
+            git config -f .gitmodules --get-regexp path | awk '{print $2}' | while read submodule; do
+              echo "Flattening submodule: $submodule"
+              git submodule deinit -f "$submodule" || true
+              git rm -f "$submodule" || true
+              rm -rf ".git/modules/$submodule" || true
+              git checkout prod -- "$submodule"
+              git add "$submodule"
             done
 
             if ! git diff --cached --quiet; then
@@ -106,10 +103,15 @@ jobs:
             echo "No submodules found. Skipping flatten step."
           fi
 
-
-          # Push main using GITHUB_TOKEN authentication
           git push origin main --force
 
+  push_to_mirror:
+    runs-on: ubuntu-latest
+    needs: update_main
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Push the content to the mirror repository
         uses: pixta-dev/repository-mirroring-action@v1
         with:
