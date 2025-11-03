@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>AsperGuide Bootstrap</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="assets/Asperguide_logo_3.png" width="30" height="30" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="menu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="home.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html">Tableau de bord</a></li>
+        <li class="nav-item"><a class="nav-link" href="guide.html">Guide</a></li>
+        <li class="nav-item"><a class="nav-link" href="games.html">Jeux</a></li>
+        <li class="nav-item"><a class="nav-link" href="rewards.html">Récompenses</a></li>
+      </ul>
+      <a href="profil.html" class="btn-outline-light ms-auto">Profile</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Dashboard -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h1>Bienvenue sur votre Dashboard</h1>
+      <p class="lead">Suivez vos activités, vos progrès et accédez à toutes vos ressources personnalisées.</p>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <h5 class="card-title">Guides complétés</h5>
+            <p class="display-6">12</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <h5 class="card-title">Activités réalisées</h5>
+            <p class="display-6">34</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <h5 class="card-title">Progression globale</h5>
+            <p class="display-6">75%</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center shadow h-100">
+          <div class="card-body">
+            <h5 class="card-title">Notifications</h5>
+            <p class="display-6">5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suivi détaillé -->
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Dernières activités</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Lecture du guide "Communication sociale" - 2 jours ago</li>
+              <li class="list-group-item">Complété le jeu "Reconnaître les émotions" - 4 jours ago</li>
+              <li class="list-group-item">Nouvelle notification de suivi - Aujourd'hui</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Graphique de progression</h5>
+            <canvas id="progressChart" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Script pour Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('progressChart').getContext('2d');
+const progressChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+        datasets: [{
+            label: 'Progression (%)',
+            data: [20, 40, 55, 75],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2,
+            tension: 0.4
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100
+            }
+        }
+    }
+});
+</script>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1">&copy; 2025 AsperGuide. Tous droits réservés.</p>
+    <p class="mb-0">
+      <a href="#" class="text-white me-3">Politique de confidentialité</a>
+      <a href="#" class="text-white">Contact</a>
+    </p>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

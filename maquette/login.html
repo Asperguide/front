@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>AsperGuide Bootstrap</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="assets/Asperguide_logo_3.png" width="30" height="30" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="menu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="offres.html">Nos offre</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="login.html" class="btn-outline-light ms-auto">Connexion</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Login -->
+<section class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+    <h3 class="text-center mb-4">Connexion</h3>
+    <form>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Votre email">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" placeholder="Votre mot de passe">
+      </div>
+      <div class="d-grid">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='dashboard.html'">Se connecter</button>
+      </div>
+    </form>
+    <p class="text-center mt-3 mb-0">Pas encore de compte ? <a href="register.html">Inscrivez-vous</a></p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1">&copy; 2025 AsperGuide. Tous droits réservés.</p>
+    <p class="mb-0">
+      <a href="#" class="text-white me-3">Politique de confidentialité</a>
+      <a href="#" class="text-white">Contact</a>
+    </p>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
