@@ -1,41 +1,55 @@
-/* 
-* +==== BEGIN AsperHeader =================+
-* LOGO: 
-* ..........####...####..........
-* ......###.....#.#########......
-* ....##........#.###########....
-* ...#..........#.############...
-* ...#..........#.#####.######...
-* ..#.....##....#.###..#...####..
-* .#.....#.##...#.##..##########.
-* #.....##########....##...######
-* #.....#...##..#.##..####.######
-* .#...##....##.#.##..###..#####.
-* ..#.##......#.#.####...######..
-* ..#...........#.#############..
-* ..#...........#.#############..
-* ...##.........#.############...
-* ......#.......#.#########......
-* .......#......#.########.......
-* .........#####...#####.........
-* /STOP
-* PROJECT: AsperHeader
-* FILE: page.tsx
-* CREATION DATE: 13-10-2025
-* LAST Modified: 9:56:11 14-10-2025
-* DESCRIPTION: 
-* dashboard page
-* /STOP
-* COPYRIGHT: (c) Asperguide
-* PURPOSE: dashboard
-* // AR
-* +==== END AsperHeader =================+
-*/ 
+'use client';
 
-export default function Dashboard() {
+import { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
+
+export default function DashboardPage() {
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstance = useRef<Chart | null>(null);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+
+      chartInstance.current = new Chart(chartRef.current, {
+        type: 'line',
+        data: {
+          labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+          datasets: [
+            {
+              label: 'Progression (%)',
+              data: [20, 40, 55, 75],
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+            },
+          },
+        },
+      });
+    }
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, []);
+
   return (
-    <div className="page-center">
-      Dashboard
+    <div>
+      <h2>Graphique de progression</h2>
+      <canvas ref={chartRef} height={200}></canvas>
     </div>
   );
 }

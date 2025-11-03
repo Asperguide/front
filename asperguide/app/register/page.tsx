@@ -1,131 +1,88 @@
-/* 
-* +==== BEGIN AsperHeader =================+
-* LOGO: 
-* ..........####...####..........
-* ......###.....#.#########......
-* ....##........#.###########....
-* ...#..........#.############...
-* ...#..........#.#####.######...
-* ..#.....##....#.###..#...####..
-* .#.....#.##...#.##..##########.
-* #.....##########....##...######
-* #.....#...##..#.##..####.######
-* .#...##....##.#.##..###..#####.
-* ..#.##......#.#.####...######..
-* ..#...........#.#############..
-* ..#...........#.#############..
-* ...##.........#.############...
-* ......#.......#.#########......
-* .......#......#.########.......
-* .........#####...#####.........
-* /STOP
-* PROJECT: AsperHeader
-* FILE: page.tsx
-* CREATION DATE: 13-10-2025
-* LAST Modified: 9:36:56 16-10-2025
-* DESCRIPTION: 
-* register page
-* /STOP
-* COPYRIGHT: (c) Asperguide
-* PURPOSE: register
-* // AR
-* +==== END AsperHeader =================+
-*/ 
+'use client';
 
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
-  const [lastname, setLastname] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-    console.log("Lastname:", lastname);
-    console.log("Firstname:", firstname);
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    const user = {lastname, firstname, email};
-
-    localStorage.setItem("auth", "true");
-    localStorage.setItem("user", JSON.stringify(user));
-    router.push("/dashboard");
+  const handleRegister = () => {
+    // l'inscription simulée
+    router.push('/home');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Inscription</h1>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* lastName */}
-          <div>
-            <label className="block mb-1 font-medium">Nom</label>
+    <section
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: '70vh' }}
+    >
+      <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '400px' }}>
+        <h3 className="text-center mb-4">Créer un compte</h3>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Nom complet</label>
             <input
-              type="lastName"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-500"
-              placeholder="Lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* firstName */}
-          <div>
-            <label className="block mb-1 font-medium">Prenom</label>
-            <input
-              type="firstName"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-500"
-              placeholder="Firstname"
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
-              required
+              type="text"
+              className="form-control"
+              id="name"
+              placeholder="Votre nom complet"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
-          {/* Email */}
-          <div>
-            <label className="block mb-1 font-medium">Email</label>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-500"
-              placeholder="exemple@mail.com"
+              className="form-control"
+              id="email"
+              placeholder="Votre email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block mb-1 font-medium">Mot de passe</label>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Mot de passe</label>
             <input
               type="password"
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-500"
-              placeholder="••••••••"
+              className="form-control"
+              id="password"
+              placeholder="Votre mot de passe"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 transition px-4 py-2 rounded font-semibold"
-          >
-            S'inscrire
-          </button>
+          <div className="mb-3">
+            <label htmlFor="confirm-password" className="form-label">Confirmer le mot de passe</label>
+            <input
+              type="password"
+              className="form-control"
+              id="confirm-password"
+              placeholder="Confirmer le mot de passe"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+
+          <div className="d-grid">
+            <button type="button" className="btn btn-primary" onClick={handleRegister}>
+              S'inscrire
+            </button>
+          </div>
         </form>
+
+        <p className="text-center mt-3 mb-0">
+          Vous avez déjà un compte ? <a href="/login">Connexion</a>
+        </p>
       </div>
-    </div>
+    </section>
   );
 }
