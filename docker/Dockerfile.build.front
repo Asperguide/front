@@ -1,0 +1,70 @@
+# 
+# +==== BEGIN AsperHeader =================+
+# LOGO: 
+# ..........####...####..........
+# ......###.....#.#########......
+# ....##........#.###########....
+# ...#..........#.############...
+# ...#..........#.#####.######...
+# ..#.....##....#.###..#...####..
+# .#.....#.##...#.##..##########.
+# #.....##########....##...######
+# #.....#...##..#.##..####.######
+# .#...##....##.#.##..###..#####.
+# ..#.##......#.#.####...######..
+# ..#...........#.#############..
+# ..#...........#.#############..
+# ...##.........#.############...
+# ......#.......#.#########......
+# .......#......#.########.......
+# .........#####...#####.........
+# /STOP
+# PROJECT: AsperHeader
+# FILE: Dockerfile.build.front
+# CREATION DATE: 05-11-2025
+# LAST Modified: 6:48:56 05-11-2025
+# DESCRIPTION: 
+# The dockerfile in charge of building the application in a streamlined manner so that the resulting files are ready for deployment.
+# /STOP
+# COPYRIGHT: (c) Asperguide
+# PURPOSE: The ci app builder.
+# // AR
+# +==== END AsperHeader =================+
+# 
+FROM node:25-alpine3.22 
+
+ENV LOCATION=frontend-ci \
+    HOME=/app \
+    SOURCE_CODE_FOLDER="asperguide" \
+    OUTPUT_DIRECTORY="/out"
+
+# Update the list of packages and add bash
+RUN apk update && apk add bash
+
+# Make sure npm is installed
+RUN if [ ! -f /usr/bin/npm ]; then apk add npm; fi; npm install -g npm;
+
+# Create a shortcut for the npm binary
+RUN ln -s /usr/local/bin/npm /bin/npm
+
+# Create the Home directory (in case it is not present) and move to it
+WORKDIR ${HOME}
+
+# Copy the package.json and package-lock.json (failsafe method)
+COPY ./${SOURCE_CODE_FOLDER}/package.json ${HOME}
+COPY ./${SOURCE_CODE_FOLDER}/package-lock.json ${HOME}
+
+# Check if the required file is present
+RUN if [ ! -f "${HOME}/package.json" ]; then echo "package.json not found"; exit 1; fi
+
+# Copy source
+COPY ./${SOURCE_CODE_FOLDER} ${HOME}
+
+# Install the required dependencies
+RUN npm install
+
+# Build the content
+# Copy the content to the output
+RUN npm run build \
+    && mkdir -p ${OUTPUT_DIRECTORY} \
+    && cp -rvf . ${OUTPUT_DIRECTORY}
