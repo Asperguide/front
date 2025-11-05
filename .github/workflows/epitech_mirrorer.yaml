@@ -61,6 +61,8 @@ env:
 jobs:
   update_main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -75,6 +77,7 @@ jobs:
 
       - name: Sync prod to main
         run: |
+          set -e
           git checkout prod
           git branch -f main prod
           git checkout main
