@@ -4,6 +4,7 @@ import './globals.css';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import FloatingButton from './components/FloatingButton';
 
 export const metadata: Metadata = {
   title: 'AsperGuide',
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body>
+      <body className="relative">
         <Navbar />
         <main className="p-5">{children}</main>
         <Footer />
+        <FloatingButton />
       </body>
     </html>
   );

@@ -29,17 +29,18 @@ export default function GamesPage() {
             <h2 className="text-center mb-4">Nos Jeux Disponibles</h2>
 
             {/* Filtrage par catégorie */}
-            <div className="text-center mb-5">
-              {['all', 'logique', 'social', 'sensoriel'].map(cat => (
+            <div className="text-center mb-5 flex flex-wrap justify-center gap-4">
+              {['all', 'logique', 'social', 'sensoriel'].map((cat) => (
                 <button
                   key={cat}
-                  className={`btn me-2 ${filter === cat ? 'btn-primary' : 'btn-outline-primary'}`}
+                  className={`btn ${filter === cat ? 'btn-primary' : 'btn-outline-primary'}`}
                   onClick={() => setFilter(cat)}
                 >
                   {cat === 'all' ? 'Tous' : cat.charAt(0).toUpperCase() + cat.slice(1)}
                 </button>
               ))}
             </div>
+
 
             {/* Liste des jeux */}
             <div className="row g-4">

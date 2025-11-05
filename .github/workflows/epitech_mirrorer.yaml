@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: epitech_mirrorer.yaml
 # CREATION DATE: 02-11-2025
-# LAST Modified: 21:8:58 03-11-2025
+# LAST Modified: 7:34:14 05-11-2025
 # DESCRIPTION:
 # This is the workflow in charge of creating a copy of the project onto the school's repository.
 # /STOP
@@ -75,35 +75,38 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Sync main with prod and flatten submodules
+      - name: Sync prod to main
         run: |
           set -e
           git checkout prod
           git branch -f main prod
           git checkout main
 
+      - name: Flatten submodules safely
+        run: |
+          set -e
           if [ -f .gitmodules ]; then
-            echo "Submodules found. Flattening..."
-            git config -f .gitmodules --get-regexp path | awk '{print $2}' | while read submodule; do
-              echo "Flattening submodule: $submodule"
-              git submodule deinit -f "$submodule" || true
-              git rm -f "$submodule" || true
-              rm -rf ".git/modules/$submodule" || true
-              git checkout prod -- "$submodule"
-              git add "$submodule"
-            done
-
-            if ! git diff --cached --quiet; then
-              echo "Committing flattened submodules..."
-              git commit -m "[ADD] flattened all submodules on main branch for bot"
-            else
-              echo "No changes to commit."
-            fi
+            echo "Flattening submodules..."
+            while read -r path; do
+              echo "Flattening $path..."
+              url=$(git config --file .gitmodules --get-regexp "submodule\.$path\.url" | awk '{print $2}')
+              tmpdir=$(mktemp -d)
+              git clone --depth 1 "$url" "$tmpdir"
+              rm -rf "$path"
+              mkdir -p "$(dirname "$path")"
+              cp -r "$tmpdir"/. "$path"/
+              rm -rf "$tmpdir"
+              git add "$path"
+            done < <(git config --file .gitmodules --get-regexp path | awk '{print $2}')
+            rm -f .gitmodules
+            git add .gitmodules || true
+            git commit -m "[AUTO] Flattened submodules for main branch" || echo "No changes."
           else
-            echo "No submodules found. Skipping flatten step."
+            echo "No submodules found, skipping flatten step."
           fi
 
-          git push origin main --force
+      - name: Push updated main
+        run: git push origin main --force
 
   push_to_mirror:
     runs-on: ubuntu-latest
