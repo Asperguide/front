@@ -6,6 +6,22 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+  :root {
+    --bs-primary: #3A63B7;
+    --bs-primary-rgb: 58, 99, 183;
+  }
+
+  .hover-zoom {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .hover-zoom:hover {
+    transform: scale(1.07);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+</style>
 <body class="p-5">
 
 <!-- Navbar -->
@@ -20,7 +36,7 @@
     <div class="collapse navbar-collapse justify-content-center" id="menu">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="offres.html">Nos offre</a></li>
+        <li class="nav-item"><a class="nav-link" href="offres.html">Nos offres</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
       </ul>
       <a href="login.html" class="btn-outline-light ms-auto">Connexion</a>
@@ -32,54 +48,44 @@
 <section class="bg-primary text-white text-center py-5">
   <div class="container">
     <h1 class="display-4">Bienvenue sur AsperGuide</h1>
-    <p class="lead">Votre guide pour accompagner les enfants et adolescents atteints du syndrome d'Asperger.</p>
+    <p class="lead">Votre guide pour accompagner les enfants et adolescents diagnostiqués du syndrome d'Asperger (TSA).</p>
     <a href="#" class="btn btn-light btn-lg mt-3">Commencer</a>
   </div>
 </section>
 
-<!-- Offres d'abonnement -->
+<!-- Section 4 colonnes -->
 <section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">Nos Offres</h2>
-    <div class="row g-4">
-      <!-- Carte Offre Basique-->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Basique</h5>
-            <p class="card-text">Accès aux fonctionnalités principales et au guide pré-diagnostique.</p>
-            <h6 class="card-price">10€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
-        </div>
+    <div class="row g-4 text-center">
+
+      <!-- Colonne 1 -->
+      <div class="col-md-3 hover-zoom">
+        <img src="assets/left_back_people.png" alt="Adulte adossé" class="img-fluid mb-3">
+        <p class="fw-semibold">Pourquoi mon enfant a-t-il des difficultés à s'intégrer à l'école ?</p>
       </div>
 
-      <!-- Carte Offre Standard -->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Standard</h5>
-            <p class="card-text">Fonctionnalités du Basique + jeux et animations interactives.</p>
-            <h6 class="card-price">20€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
-        </div>
+      <!-- Colonne 2 -->
+      <div class="col-md-3 hover-zoom">
+        <img src="assets/right_back_people.png" alt="Enfant adossé" class="img-fluid mb-3">
+        <p class="fw-semibold">Pourquoi ai-je du mal à me faire des amis à l'école ?</p>
       </div>
 
-      <!-- Carte Offre Premium -->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Premium</h5>
-            <p class="card-text">Accès complet, suivi personnalisé et supports avancés.</p>
-            <h6 class="card-price">30€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
-        </div>
+      <!-- Colonne 3 -->
+      <div class="col-md-3 hover-zoom">
+        <img src="assets/old_people_diag.png" alt="Adulte diagnostique" class="img-fluid mb-3">
+        <p class="fw-semibold">Un parcours clair vers le diagnostic.</p>
       </div>
+
+      <!-- Colonne 4 -->
+      <div class="col-md-3 hover-zoom">
+        <img src="assets/young_people_diag.png" alt="Enfant diagnostique" class="img-fluid mb-3">
+        <p class="fw-semibold">Comprendre ses différences pour mieux avancer.</p>
+      </div>
+
     </div>
   </div>
 </section>
+
 
 <!-- Footer -->
 <footer class="bg-dark text-white text-center py-4 mt-5">
