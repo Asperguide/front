@@ -27,7 +27,7 @@ const games: Game[] = [
     title: '😊 Quiz des émotions', 
     description: 'Testez votre capacité à reconnaître les émotions dans différentes situations.', 
     category: 'social', 
-    link: '/games/quizemotion' 
+    link: '/games/emotion-quiz' 
   },
   { 
     title: '🎚️ Modulation émotionnelle', 
