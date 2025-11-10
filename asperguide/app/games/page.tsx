@@ -50,7 +50,7 @@ export default function GamesPage() {
                     <div className="card-body text-center">
                       <h5 className="card-title">{game.title}</h5>
                       <p className="card-text">{game.description}</p>
-                      <a href="#" className="btn btn-primary">Jouer</a>
+                      <a href="/games/emotion-slider" className="btn btn-primary">Jouer</a>
                     </div>
                   </div>
                 </div>
