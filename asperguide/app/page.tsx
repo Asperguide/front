@@ -6,7 +6,12 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [visible, setVisible] = useState<boolean[]>([false, false, false, false]);
-  const refs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
+  const refs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null)
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -77,8 +82,9 @@ export default function Home() {
       </section>
 
       {/* Section rectangles pleine largeur */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-gray-100" aria-labelledby="features-title">
         <div className="max-w-4xl mx-auto px-4 flex flex-col gap-8">
+          <h2 id="features-title" className="sr-only">Fonctionnalités principales</h2>
           {[
             { title: "Outil éducatif", desc: "Des ressources adaptées pour accompagner l'enfant." },
             { title: "Suivi personnalisé", desc: "Un parcours clair et structuré." },
@@ -88,6 +94,8 @@ export default function Home() {
             <div
               key={index}
               ref={refs[index]}
+              role="region"
+              aria-label={`${item.title}: ${item.desc}`}
               className={`bg-primary text-white p-10 rounded-lg shadow-xl w-full text-center transform transition-all duration-700 ease-out
                 ${visible[index] ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"}`}
             >
@@ -97,7 +105,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
     </>
   );
 }

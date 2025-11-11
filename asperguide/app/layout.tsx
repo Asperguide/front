@@ -14,10 +14,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body className="relative">
-        <Navbar />
-        <main className="p-5">{children}</main>
-        <Footer />
-        <FloatingButton />
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute top-0 left-0 bg-primary text-white p-2 z-50">
+          Aller au contenu
+        </a>
+
+        <header>
+          <Navbar aria-label="Navigation principale" />
+        </header>
+
+        <main id="main-content" className="p-5">
+          {children}
+        </main>
+
+        <footer aria-label="Pied de page">
+          <Footer />
+        </footer>
+
+        <FloatingButton aria-label="Bouton flottant d’action" />
       </body>
     </html>
   );

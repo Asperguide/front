@@ -23,18 +23,20 @@ export default function GamesPage() {
 
   return (
     <main className="p-6">
-      <section className="py-8">
+      <section className="py-8" aria-label="Liste des jeux disponibles">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-6">Nos Jeux Disponibles</h2>
 
           {/* Filtrage par catégorie */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 mb-8" role="group" aria-label="Filtrer les jeux par catégorie">
             {['all', 'logique', 'social', 'sensoriel'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
                 className={`px-4 py-2 rounded-lg font-medium transition cursor-pointer
                   ${filter === cat ? 'bg-primary text-white' : 'bg-white border border-primary text-primary hover:bg-primary hover:text-white'}`}
+                aria-pressed={filter === cat}
+                aria-label={cat === 'all' ? 'Afficher tous les jeux' : `Afficher les jeux ${cat}`}
               >
                 {cat === 'all' ? 'Tous' : cat.charAt(0).toUpperCase() + cat.slice(1)}
               </button>
@@ -44,13 +46,21 @@ export default function GamesPage() {
           {/* Liste des jeux */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredGames.map((game, index) => (
-              <div key={index} className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between hover:shadow-xl transition"
+                role="region"
+                aria-label={`Jeu : ${game.title}`}
+              >
                 <div>
                   <h5 className="text-xl font-semibold mb-2 text-center">{game.title}</h5>
                   <p className="text-gray-600 text-center">{game.description}</p>
                 </div>
                 <div className="text-center mt-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer">
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+                    aria-label={`Jouer au jeu ${game.title}`}
+                  >
                     Jouer
                   </button>
                 </div>

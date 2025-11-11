@@ -27,22 +27,28 @@ export default function ProfilPage() {
   if (!user) return null;
 
   return (
-    <main className="flex justify-center items-center p-5 min-h-[70vh]">
+    <main
+      className="flex justify-center items-center p-5 min-h-[70vh]"
+      aria-label="Page profil utilisateur"
+    >
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <h3 className="text-center text-2xl font-semibold mb-6">Profil</h3>
 
-        <ul className="divide-y divide-gray-200 mb-6">
-          <li className="py-2">
-            <span className="font-semibold">Nom :</span> {user.name}
-          </li>
-          <li className="py-2">
-            <span className="font-semibold">Email :</span> {user.email}
-          </li>
-        </ul>
+        <dl className="divide-y divide-gray-200 mb-6">
+          <div className="py-2 flex justify-between">
+            <dt className="font-semibold">Nom :</dt>
+            <dd>{user.name}</dd>
+          </div>
+          <div className="py-2 flex justify-between">
+            <dt className="font-semibold">Email :</dt>
+            <dd>{user.email}</dd>
+          </div>
+        </dl>
 
         <button
           className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition cursor-pointer"
           onClick={handleLogout}
+          aria-label="Se déconnecter"
         >
           Se déconnecter
         </button>

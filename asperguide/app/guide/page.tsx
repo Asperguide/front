@@ -23,7 +23,7 @@ export default function GuidePage() {
 
   return (
     <main className="p-6">
-      <section className="py-8 max-w-3xl mx-auto">
+      <section className="py-8 max-w-3xl mx-auto" aria-label="Guide étape par étape pour les parents">
         <h2 className="text-3xl font-bold text-center mb-4">Guide pour les parents</h2>
         <p className="text-center text-gray-700 mb-6">
           Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.
@@ -35,6 +35,8 @@ export default function GuidePage() {
             <div
               key={idx}
               className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
+              role="region"
+              aria-label={`Conseil ${idx + 1} sur ${conseils.length}`}
             >
               <p className="text-gray-800">{tip}</p>
             </div>
@@ -51,6 +53,9 @@ export default function GuidePage() {
               }`}
             onClick={handleNextTip}
             disabled={currentIndex >= conseils.length}
+            aria-label={currentIndex >= conseils.length
+              ? "Tous les conseils ont été affichés"
+              : "Afficher le prochain conseil"}
           >
             {currentIndex >= conseils.length
               ? "Tous les conseils ont été affichés"

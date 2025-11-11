@@ -4,11 +4,17 @@ import { Eye, Type, Contrast, Palette } from 'lucide-react';
 
 export default function AccessibilityButton() {
   const [open, setOpen] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -16,14 +22,26 @@ export default function AccessibilityButton() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setOpen(!open);
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+    }
+  };
+
   return (
-    <div className="fixed bottom-5 right-5 z-50" ref={buttonRef}>
-      {/* Bouton flottant d’accessibilité */}
+    <div className="fixed bottom-5 right-5 z-50">
+      {/* Bouton flottant */}
       <button
+        ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 cursor-pointer"
-        style={{ borderRadius: '50%', padding: 0 }}
+        onKeyDown={handleKeyDown}
+        className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200"
         aria-label="Ouvrir le menu d’accessibilité"
+        aria-haspopup="true"
+        aria-expanded={open}
       >
         <Eye className="w-6 h-6" />
       </button>
@@ -31,13 +49,17 @@ export default function AccessibilityButton() {
       {/* Menu déroulant */}
       {open && (
         <div
+          ref={menuRef}
           className="absolute bottom-full mb-3 right-0 bg-white rounded-xl shadow-xl w-64 overflow-hidden border border-gray-100 animate-fade-slide-up"
           role="menu"
+          aria-label="Options d’accessibilité"
         >
           <ul className="flex flex-col text-gray-700 divide-y divide-gray-100">
             <li
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
+              tabIndex={0}
+              aria-label="Activer le filtre daltonien"
             >
               <Palette className="w-5 h-5 text-primary" />
               <span>Activer le filtre daltonien</span>
@@ -45,6 +67,8 @@ export default function AccessibilityButton() {
             <li
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
+              tabIndex={0}
+              aria-label="Augmenter le contraste"
             >
               <Contrast className="w-5 h-5 text-primary" />
               <span>Augmenter le contraste</span>
@@ -52,6 +76,8 @@ export default function AccessibilityButton() {
             <li
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
+              tabIndex={0}
+              aria-label="Augmenter la taille du texte"
             >
               <Type className="w-5 h-5 text-primary" />
               <span>Texte plus grand</span>
@@ -60,7 +86,6 @@ export default function AccessibilityButton() {
         </div>
       )}
 
-      {/* Animation */}
       <style jsx>{`
         @keyframes fade-slide-up {
           from {

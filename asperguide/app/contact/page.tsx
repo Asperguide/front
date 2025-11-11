@@ -14,7 +14,7 @@ export default function ContactPage() {
             Vous avez une question ou souhaitez en savoir plus sur nos offres ? Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.
           </p>
 
-          <form className="space-y-6">
+          <form className="space-y-6" aria-label="Formulaire de contact">
             <div>
               <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
                 Nom
@@ -23,6 +23,8 @@ export default function ContactPage() {
                 type="text"
                 id="name"
                 placeholder="Votre nom"
+                aria-label="Nom"
+                aria-required="true"
                 className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
               />
             </div>
@@ -35,6 +37,8 @@ export default function ContactPage() {
                 type="email"
                 id="email"
                 placeholder="Votre email"
+                aria-label="Email"
+                aria-required="true"
                 className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
               />
             </div>
@@ -47,6 +51,8 @@ export default function ContactPage() {
                 id="message"
                 rows={5}
                 placeholder="Votre message"
+                aria-label="Message"
+                aria-required="true"
                 className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition resize-none"
               />
             </div>
@@ -54,6 +60,7 @@ export default function ContactPage() {
             <div className="text-center">
               <button
                 type="submit"
+                aria-label="Envoyer le message"
                 className="bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer"
               >
                 Envoyer

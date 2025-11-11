@@ -16,11 +16,18 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="flex justify-center items-center min-h-[70vh] px-4">
+    <section
+      className="flex justify-center items-center min-h-[70vh] px-4"
+      aria-label="Page de connexion"
+    >
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h3 className="text-2xl font-semibold text-center mb-6">Connexion</h3>
 
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="space-y-4"
+          aria-label="Formulaire de connexion"
+        >
           <div>
             <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
               Email
@@ -32,6 +39,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-required="true"
             />
           </div>
 
@@ -46,6 +54,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-required="true"
             />
           </div>
 
@@ -53,6 +62,7 @@ export default function LoginPage() {
             type="button"
             onClick={handleLogin}
             className="w-full bg-primary text-white font-semibold py-2 rounded-lg hover:bg-blue-800 transition cursor-pointer"
+            aria-label="Se connecter au compte"
           >
             Se connecter
           </button>
@@ -60,7 +70,7 @@ export default function LoginPage() {
 
         <p className="text-center mt-4 text-gray-600">
           Pas encore de compte ?{' '}
-          <Link href="/register" className="text-primary font-medium hover:underline">
+          <Link href="/register" className="text-primary font-medium hover:underline" aria-label="Aller à la page d'inscription">
             Inscrivez-vous
           </Link>
         </p>

@@ -7,6 +7,9 @@ export default function DashboardPage() {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<Chart | null>(null);
 
+  const labels = ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'];
+  const dataPoints = [20, 40, 55, 75];
+
   useEffect(() => {
     if (chartRef.current) {
       if (chartInstance.current) {
@@ -16,11 +19,11 @@ export default function DashboardPage() {
       chartInstance.current = new Chart(chartRef.current, {
         type: 'line',
         data: {
-          labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+          labels,
           datasets: [
             {
               label: 'Progression (%)',
-              data: [20, 40, 55, 75],
+              data: dataPoints,
               backgroundColor: 'rgba(58, 99, 183, 0.2)',
               borderColor: '#3A63B7',
               borderWidth: 2,

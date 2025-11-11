@@ -11,8 +11,9 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleRegister = () => {
-    // l'inscription simulée
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Inscription simulée
     router.push('/home');
   };
 
@@ -20,16 +21,19 @@ export default function RegisterPage() {
     <section className="flex justify-center items-center min-h-[70vh] p-5">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <h3 className="text-center text-2xl font-semibold mb-6">Créer un compte</h3>
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+
+        <form onSubmit={handleRegister} className="space-y-4" aria-label="Formulaire d'inscription">
           <div>
             <label htmlFor="name" className="block font-medium mb-1">Nom complet</label>
             <input
               type="text"
               id="name"
+              aria-label="Nom complet"
               placeholder="Votre nom complet"
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
 
@@ -38,10 +42,12 @@ export default function RegisterPage() {
             <input
               type="email"
               id="email"
+              aria-label="Adresse email"
               placeholder="Votre email"
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -50,10 +56,12 @@ export default function RegisterPage() {
             <input
               type="password"
               id="password"
+              aria-label="Mot de passe"
               placeholder="Votre mot de passe"
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -62,16 +70,17 @@ export default function RegisterPage() {
             <input
               type="password"
               id="confirm-password"
+              aria-label="Confirmer le mot de passe"
               placeholder="Confirmer le mot de passe"
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
           </div>
 
           <button
-            type="button"
-            onClick={handleRegister}
+            type="submit"
             className="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
           >
             S'inscrire
