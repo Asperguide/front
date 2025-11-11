@@ -27,19 +27,26 @@ export default function ProfilPage() {
   if (!user) return null;
 
   return (
-    <>
-      <main className="p-5 d-flex justify-content-center align-items-center" style={{ minHeight: '70vh' }}>
-        <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
-          <h3 className="text-center mb-4">Profil</h3>
-          <ul className="list-group list-group-flush mb-3">
-            <li className="list-group-item"><strong>Nom :</strong> {user.name}</li>
-            <li className="list-group-item"><strong>Email :</strong> {user.email}</li>
-          </ul>
-          <div className="d-grid">
-            <button className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
-          </div>
-        </div>
-      </main>
-    </>
+    <main className="flex justify-center items-center p-5 min-h-[70vh]">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+        <h3 className="text-center text-2xl font-semibold mb-6">Profil</h3>
+
+        <ul className="divide-y divide-gray-200 mb-6">
+          <li className="py-2">
+            <span className="font-semibold">Nom :</span> {user.name}
+          </li>
+          <li className="py-2">
+            <span className="font-semibold">Email :</span> {user.email}
+          </li>
+        </ul>
+
+        <button
+          className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition cursor-pointer"
+          onClick={handleLogout}
+        >
+          Se déconnecter
+        </button>
+      </div>
+    </main>
   );
 }

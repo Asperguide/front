@@ -21,7 +21,7 @@ export default function AccessibilityButton() {
       {/* Bouton flottant d’accessibilité */}
       <button
         onClick={() => setOpen(!open)}
-        className="bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200"
+        className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 cursor-pointer"
         style={{ borderRadius: '50%', padding: 0 }}
         aria-label="Ouvrir le menu d’accessibilité"
       >
@@ -39,21 +39,21 @@ export default function AccessibilityButton() {
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
             >
-              <Palette className="w-5 h-5 text-blue-500" />
+              <Palette className="w-5 h-5 text-primary" />
               <span>Activer le filtre daltonien</span>
             </li>
             <li
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
             >
-              <Contrast className="w-5 h-5 text-blue-500" />
+              <Contrast className="w-5 h-5 text-primary" />
               <span>Augmenter le contraste</span>
             </li>
             <li
               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition"
               role="menuitem"
             >
-              <Type className="w-5 h-5 text-blue-500" />
+              <Type className="w-5 h-5 text-primary" />
               <span>Texte plus grand</span>
             </li>
           </ul>

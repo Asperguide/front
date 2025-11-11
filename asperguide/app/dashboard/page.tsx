@@ -21,18 +21,42 @@ export default function DashboardPage() {
             {
               label: 'Progression (%)',
               data: [20, 40, 55, 75],
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
-              borderColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(58, 99, 183, 0.2)',
+              borderColor: '#3A63B7',
               borderWidth: 2,
               tension: 0.4,
+              fill: true,
             },
           ],
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#171717',
+              },
+            },
+          },
           scales: {
+            x: {
+              ticks: {
+                color: '#171717',
+              },
+              grid: {
+                color: 'rgba(0,0,0,0.05)',
+              },
+            },
             y: {
               beginAtZero: true,
               max: 100,
+              ticks: {
+                color: '#171717',
+              },
+              grid: {
+                color: 'rgba(0,0,0,0.05)',
+              },
             },
           },
         },
@@ -47,9 +71,11 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div>
-      <h2>Graphique de progression</h2>
-      <canvas ref={chartRef} height={200}></canvas>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-gray-900">Graphique de progression</h2>
+      <div className="bg-white shadow rounded-lg p-4">
+        <canvas ref={chartRef} className="w-full h-64"></canvas>
+      </div>
     </div>
   );
 }

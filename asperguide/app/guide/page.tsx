@@ -22,35 +22,42 @@ export default function GuidePage() {
   };
 
   return (
-    <>
-      <main className="p-5">
-        <section className="py-5">
-          <div className="container">
-            <h2 className="text-center mb-5">Guide pour les parents</h2>
-            <p className="text-center mb-4">Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.</p>
+    <main className="p-6">
+      <section className="py-8 max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-4">Guide pour les parents</h2>
+        <p className="text-center text-gray-700 mb-6">
+          Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.
+        </p>
 
-            <div className="d-flex flex-column align-items-center gap-3">
-              {conseils.slice(0, currentIndex).map((tip, idx) => (
-                <div key={idx} className="card shadow p-3 w-100">
-                  <div className="card-body">
-                    <p className="card-text">{tip}</p>
-                  </div>
-                </div>
-              ))}
+        {/* Liste des conseils */}
+        <div className="flex flex-col gap-4 mb-6">
+          {conseils.slice(0, currentIndex).map((tip, idx) => (
+            <div
+              key={idx}
+              className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
+            >
+              <p className="text-gray-800">{tip}</p>
             </div>
+          ))}
+        </div>
 
-            <div className="text-center mt-4">
-              <button
-                className="btn btn-primary"
-                onClick={handleNextTip}
-                disabled={currentIndex >= conseils.length}
-              >
-                {currentIndex >= conseils.length ? "Tous les conseils ont été affichés" : "Prochain conseil"}
-              </button>
-            </div>
-          </div>
-        </section>
-      </main>
-    </>
+        {/* Bouton */}
+        <div className="text-center">
+          <button
+            className={`px-6 py-2 rounded-lg font-semibold transition cursor-pointer
+              ${currentIndex >= conseils.length
+                ? 'bg-gray-300 text-gray-700 cursor-not-allowed'
+                : 'bg-primary text-white hover:bg-blue-700'
+              }`}
+            onClick={handleNextTip}
+            disabled={currentIndex >= conseils.length}
+          >
+            {currentIndex >= conseils.length
+              ? "Tous les conseils ont été affichés"
+              : "Prochain conseil"}
+          </button>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -22,43 +22,43 @@ export default function GamesPage() {
   const filteredGames = filter === 'all' ? games : games.filter(game => game.category === filter);
 
   return (
-    <>
-      <main className="p-5">
-        <section className="py-5">
-          <div className="container">
-            <h2 className="text-center mb-4">Nos Jeux Disponibles</h2>
+    <main className="p-6">
+      <section className="py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-6">Nos Jeux Disponibles</h2>
 
-            {/* Filtrage par catégorie */}
-            <div className="text-center mb-5 flex flex-wrap justify-center gap-4">
-              {['all', 'logique', 'social', 'sensoriel'].map((cat) => (
-                <button
-                  key={cat}
-                  className={`btn ${filter === cat ? 'btn-primary' : 'btn-outline-primary'}`}
-                  onClick={() => setFilter(cat)}
-                >
-                  {cat === 'all' ? 'Tous' : cat.charAt(0).toUpperCase() + cat.slice(1)}
-                </button>
-              ))}
-            </div>
-
-
-            {/* Liste des jeux */}
-            <div className="row g-4">
-              {filteredGames.map((game, index) => (
-                <div key={index} className="col-md-4">
-                  <div className="card h-100 shadow">
-                    <div className="card-body text-center">
-                      <h5 className="card-title">{game.title}</h5>
-                      <p className="card-text">{game.description}</p>
-                      <a href="#" className="btn btn-primary">Jouer</a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Filtrage par catégorie */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            {['all', 'logique', 'social', 'sensoriel'].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-4 py-2 rounded-lg font-medium transition cursor-pointer
+                  ${filter === cat ? 'bg-primary text-white' : 'bg-white border border-primary text-primary hover:bg-primary hover:text-white'}`}
+              >
+                {cat === 'all' ? 'Tous' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </button>
+            ))}
           </div>
-        </section>
-      </main>
-    </>
+
+          {/* Liste des jeux */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredGames.map((game, index) => (
+              <div key={index} className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
+                <div>
+                  <h5 className="text-xl font-semibold mb-2 text-center">{game.title}</h5>
+                  <p className="text-gray-600 text-center">{game.description}</p>
+                </div>
+                <div className="text-center mt-4">
+                  <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer">
+                    Jouer
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -45,115 +45,104 @@ export default function Navbar() {
   const logoLink = isLoggedIn ? '/home' : '/';
 
   return (
-    <>
-      <nav className="navbar navbar-dark bg-dark py-2">
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-          {/* 🟦 Logo à gauche */}
-          <Link className="navbar-brand d-flex align-items-center" href={logoLink}>
-            <Image
-              src="/Asperguide_logo_3.png"
-              width={30}
-              height={30}
-              alt="Logo AsperGuide"
-              className="me-2"
-            />
-            <span>AsperGuide</span>
-          </Link>
+    <nav className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        
+        {/* Logo */}
+        <Link href={logoLink} className="flex items-center gap-2">
+          <Image
+            src="/Asperguide_logo_3.png"
+            width={30}
+            height={30}
+            alt="Logo AsperGuide"
+          />
+          <span className="font-semibold">AsperGuide</span>
+        </Link>
 
-          {/* 🟩 Liens centrés sur desktop */}
-          <div className="d-none d-lg-flex flex-grow-1 justify-content-center">
-            <ul className="navbar-nav flex-row gap-4 mb-0">
-              {navLinks.map((link) => (
-                <li key={link.href} className="nav-item">
-                  <Link
-                    className={`nav-link ${pathname === link.href ? 'active' : ''}`}
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Desktop links */}
+        <div className="hidden lg:flex gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`transition ${
+                pathname === link.href ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
 
-          {/* 🟧 Bouton burger visible seulement sur mobile */}
-          <button
-            className="navbar-toggler d-lg-none"
-            type="button"
-            aria-expanded={open}
-            aria-label="Toggle navigation"
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        {/* Desktop profile*/}
+        <div className="hidden lg:flex items-center gap-4">
+          {isLoggedIn ? (
+            <Link
+              href="/profil"
+              className="px-4 py-2 border border-white rounded hover:bg-white hover:text-gray-900 dark:border-gray-900 dark:hover:bg-gray-900 dark:hover:text-white transition"
+            >
+              Profil
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 border border-white rounded hover:bg-white hover:text-gray-900 dark:border-gray-900 dark:hover:bg-gray-900 dark:hover:text-white transition"
+            >
+              Connexion
+            </Link>
+          )}
+        </div>
 
-          {/* 🟧 Profil / Connexion à droite */}
-          <div className="d-none d-lg-block">
+        {/* Burger button */}
+        <button
+          className="lg:hidden flex flex-col gap-1"
+          onClick={() => setOpen((prev) => !prev)}
+          aria-expanded={open}
+        >
+          <span className="w-6 h-0.5 bg-white"></span>
+          <span className="w-6 h-0.5 bg-white"></span>
+          <span className="w-6 h-0.5 bg-white"></span>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`lg:hidden overflow-hidden bg-gray-900 transition-all duration-300 ${
+          open ? 'max-h-96' : 'max-h-0'
+        }`}
+      >
+        <div className="px-4 py-3 space-y-3">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`block ${
+                pathname === link.href ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          <div className="pt-3 flex flex-col gap-2">
             {isLoggedIn ? (
-              <Link href="/profil" className="btn btn-outline-light">
+              <Link
+                href="/profil"
+                className="px-4 py-2 border border-white rounded inline-block hover:bg-white hover:text-gray-900 dark:border-gray-900 dark:hover:bg-gray-900 dark:hover:text-white"
+              >
                 Profil
               </Link>
             ) : (
-              <Link href="/login" className="btn btn-outline-light">
+              <Link
+                href="/login"
+                className="px-4 py-2 border border-white rounded inline-block hover:bg-white hover:text-gray-900 dark:border-gray-900 dark:hover:bg-gray-900 dark:hover:text-white"
+              >
                 Connexion
               </Link>
             )}
           </div>
         </div>
-
-        {/* 🟩 Menu déroulant (mobile seulement) */}
-        <div className={`collapse-custom ${open ? 'open' : ''} d-lg-none`}>
-          <ul className="navbar-nav mb-2 ps-3">
-            {navLinks.map((link) => (
-              <li key={link.href} className="nav-item">
-                <Link
-                  className={`nav-link ${pathname === link.href ? 'active' : ''}`}
-                  href={link.href}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <div className="d-flex justify-content-end pe-3 pb-3">
-            {isLoggedIn ? (
-              <Link href="/profil" className="btn btn-outline-light">
-                Profil
-              </Link>
-            ) : (
-              <Link href="/login" className="btn btn-outline-light">
-                Connexion
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      <style jsx>{`
-        .collapse-custom {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-          background-color: #212529;
-        }
-        .collapse-custom.open {
-          max-height: 500px;
-        }
-        @media (min-width: 992px) {
-          .collapse-custom {
-            display: none !important;
-          }
-        }
-        .nav-link {
-          color: rgba(255, 255, 255, 0.85);
-          transition: color 0.2s ease;
-        }
-        .nav-link:hover,
-        .nav-link.active {
-          color: #fff;
-        }
-      `}</style>
-    </>
+      </div>
+    </nav>
   );
 }
