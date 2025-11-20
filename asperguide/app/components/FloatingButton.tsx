@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Eye } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
@@ -52,11 +52,32 @@ export default function AccessibilityButton() {
   const [transparency, setTransparency] = useState(100);
   const [mounted, setMounted] = useState(false);
 
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Injection des filtres SVG
+  // Fermeture du menu si clic en dehors
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [open]);
+
   useEffect(() => {
     if (!document.getElementById('daltonism-svg')) {
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -116,15 +137,17 @@ export default function AccessibilityButton() {
           animation: fade-slide-up 0.25s ease-out forwards;
         }
       `}</style>
-      
-      <div style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        zIndex: 999999
-      }}>
-        {/* Floating button */}
+
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 999999,
+        }}
+      >
         <button
+          ref={buttonRef}
           onClick={() => setOpen(!open)}
           className="bg-blue-500 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200"
           aria-label="Filtre daltonien"
@@ -132,9 +155,11 @@ export default function AccessibilityButton() {
           <Eye className="w-7 h-7" />
         </button>
 
-        {/* DaltonismFilter flottant */}
-        {/* {open && (
-          <div className="absolute bottom-full right-0 mb-4 w-80 p-4 bg-white border rounded-xl shadow-2xl animate-fade-slide-up">
+        {open && (
+          <div
+            ref={menuRef}
+            className="absolute bottom-full right-0 mb-4 w-80 p-4 bg-white border rounded-xl shadow-2xl animate-fade-slide-up"
+          >
             <p className="font-semibold mb-2">Filtres Daltonisme</p>
 
             <div className="flex flex-wrap gap-2 mb-2">
@@ -177,7 +202,7 @@ export default function AccessibilityButton() {
 
             <p className="text-xs text-gray-500">Filtre actif: {activeFilter}</p>
           </div>
-        )} */}
+        )}
       </div>
     </>
   );
