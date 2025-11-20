@@ -1,19 +1,40 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 type Game = {
   title: string;
   description: string;
   category: string;
+  link: string;
 };
 
 const games: Game[] = [
-  { title: 'Puzzle des formes', description: 'Améliore la logique et la reconnaissance des formes.', category: 'logique' },
-  { title: 'Jeu des émotions', description: 'Apprendre à identifier et comprendre les émotions des autres.', category: 'social' },
-  { title: 'Couleurs et sons', description: 'Activité sensorielle pour développer la perception auditive et visuelle.', category: 'sensoriel' },
-  { title: 'Labyrinthe', description: 'Renforce la logique et la planification.', category: 'logique' },
-  { title: 'Jeu du partage', description: 'Apprendre les notions de partage et de coopération.', category: 'social' },
+  {
+    title: 'Tri des actions',
+    description: 'Apprends à reconnaître les comportements appropriés ou non.',
+    category: 'social',
+    link: '/games/sorting',
+  },
+  {
+    title: 'Modulation émotionnelle',
+    description: 'Ajuste l’intensité d’une émotion selon la situation.',
+    category: 'social',
+    link: '/games/emotion-slider',
+  },
+  {
+    title: 'Quiz des émotions',
+    description: 'Réponds aux questions liées aux émotions.',
+    category: 'social',
+    link: '/games/emotion-quiz',
+  },
+  {
+    title: 'Vrai ou Faux',
+    description: 'Détermine si les comportements sont appropriés.',
+    category: 'social',
+    link: '/games/true-false',
+  },
 ];
 
 export default function GamesPage() {
@@ -27,9 +48,13 @@ export default function GamesPage() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-6">Nos Jeux Disponibles</h2>
 
-          {/* Filtrage par catégorie */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8" role="group" aria-label="Filtrer les jeux par catégorie">
-            {['all', 'logique', 'social', 'sensoriel'].map((cat) => (
+          {/* Filtrage */}
+          <div
+            className="flex flex-wrap justify-center gap-4 mb-8"
+            role="group"
+            aria-label="Filtrer les jeux par catégorie"
+          >
+            {['all', 'social'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
@@ -57,12 +82,11 @@ export default function GamesPage() {
                   <p className="text-gray-600 text-center">{game.description}</p>
                 </div>
                 <div className="text-center mt-4">
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
-                    aria-label={`Jouer au jeu ${game.title}`}
-                  >
-                    Jouer
-                  </button>
+                  <Link href={game.link}>
+                    <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer">
+                      Jouer
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
