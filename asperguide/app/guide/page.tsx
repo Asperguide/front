@@ -15,6 +15,11 @@ const conseils = [
 export default function GuidePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const totalImages = 5;
+  const progression = currentIndex / conseils.length;
+  const imageIndex = Math.min(4, Math.floor(progression * totalImages));
+  const imageSrc = `/tour_${imageIndex}.png`;
+
   const handleNextTip = () => {
     if (currentIndex < conseils.length) {
       setCurrentIndex(currentIndex + 1);
@@ -28,6 +33,17 @@ export default function GuidePage() {
         <p className="text-center text-gray-700 mb-6">
           Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.
         </p>
+
+        {/* Image de la tour */}
+        <div className="flex justify-center mb-8">
+          <img
+            src={imageSrc}
+            role="img"
+            aria-label={`Illustration de la tour au niveau ${imageIndex}`}
+            alt={`Etat actuel de la tour,niveau ${imageIndex}`}
+            className="w-64 rounded-xl shadow-lg, transition-all duration-500"
+          />
+        </div>
 
         {/* Liste des conseils */}
         <div className="flex flex-col gap-4 mb-6">
