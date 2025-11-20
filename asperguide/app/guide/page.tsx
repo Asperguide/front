@@ -17,7 +17,7 @@ export default function GuidePage() {
 
   const totalImages = 5;
   const progression = currentIndex / conseils.length;
-  const imageIndex = Math.min(4, Math.floor(progression * totalImages));
+  const imageIndex = Math.min(5, Math.floor(progression * totalImages));
   const imageSrc = `/tour_${imageIndex}.png`;
 
   const handleNextTip = () => {
