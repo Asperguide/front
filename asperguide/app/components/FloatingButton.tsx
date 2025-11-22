@@ -1,4 +1,39 @@
+/* 
+* +==== BEGIN AsperHeader =================+
+* LOGO: 
+* ..........####...####..........
+* ......###.....#.#########......
+* ....##........#.###########....
+* ...#..........#.############...
+* ...#..........#.#####.######...
+* ..#.....##....#.###..#...####..
+* .#.....#.##...#.##..##########.
+* #.....##########....##...######
+* #.....#...##..#.##..####.######
+* .#...##....##.#.##..###..#####.
+* ..#.##......#.#.####...######..
+* ..#...........#.#############..
+* ..#...........#.#############..
+* ...##.........#.############...
+* ......#.......#.#########......
+* .......#......#.########.......
+* .........#####...#####.........
+* /STOP
+* PROJECT: AsperHeader
+* FILE: FloatingButton.tsx
+* CREATION DATE: 22-11-2025
+* LAST Modified: 16:36:32 22-11-2025
+* DESCRIPTION: 
+* floating button component
+* /STOP
+* COPYRIGHT: (c) Asperguide
+* PURPOSE: this is the compoennt for the floting button that open a menu for apply daltonian filters
+* // AR
+* +==== END AsperHeader =================+
+*/ 
+
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { Eye } from 'lucide-react';
 import { createPortal } from 'react-dom';
