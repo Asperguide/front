@@ -22,15 +22,16 @@
 * PROJECT: AsperHeader
 * FILE: page.tsx
 * CREATION DATE: 24-11-2025
-* LAST Modified: 18:32:28 24-11-2025
+* LAST Modified: 18:49:36 24-11-2025
 * DESCRIPTION: 
-* Sorting Game
+* Sorting Game – nouvelle DA
 * /STOP
 * COPYRIGHT: (c) Asperguide
 * PURPOSE: Appropriate or inappropriate?
 * // AR
 * +==== END AsperHeader =================+
-*/ 
+*/
+
 'use client';
 
 import React, { useState, useEffect } from "react";
@@ -85,36 +86,31 @@ export default function SortingGame() {
     const phrase = phrases[draggedIndex];
     const correct = phrase.type === targetType;
 
-    // Affichage instantané du feedback
     setFeedback(correct ? '✅ Bonne réponse !' : '❌ Mauvaise réponse.');
-
     if (correct) setScore((s) => s + 1);
 
-    // Retirer la phrase après 400ms, feedback reste visible
     setTimeout(() => {
       const remaining = phrases.filter((_, i) => i !== draggedIndex);
       setPhrases(remaining);
       setDraggedIndex(null);
-
-      // Si plus de phrases, fin du jeu
       if (remaining.length === 0) setEnded(true);
     }, 400);
   };
 
   return (
-    <main className="sorting-container">
-      <div className="sorting-board">
-        <h2 className="title">Approprié ou Non</h2>
+    <main className="container force-center">
+      <div className="board">
+        <h2 className="title">Approprié ou Non ?</h2>
         <p className="score">Score : {score} / {allPhrases.length}</p>
-        {!ended && <p className="subtitle">Fais glisser chaque phrase dans la bonne colonne.</p>}
+        {!ended && <p className="subtitle">Glisse chaque phrase dans la bonne colonne.</p>}
 
-        <div className="columns-wrapper">
+        <div className="columns">
           <div
             className="column"
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => handleDrop('appropriate')}
           >
-            <div className="column-title">✅ Approprié</div>
+            <div className="column-title good">Approprié ✔</div>
           </div>
 
           <div
@@ -122,15 +118,15 @@ export default function SortingGame() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => handleDrop('inappropriate')}
           >
-            <div className="column-title inappropriate">❌ Inapproprié</div>
+            <div className="column-title bad">Inapproprié ✖</div>
           </div>
         </div>
 
-        <div className="items-list">
+        <div className="phrases">
           {phrases.map((p, i) => (
             <div
               key={i}
-              className="draggable-item"
+              className="phrase"
               draggable
               onDragStart={() => handleDragStart(i)}
             >
@@ -139,55 +135,62 @@ export default function SortingGame() {
           ))}
         </div>
 
-        {feedback && <div className="feedback">{feedback}</div>}
+        {feedback && <p className="feedback">{feedback}</p>}
 
         {ended && (
           <>
-            <h5 className="score">Score final : {score} / {allPhrases.length}</h5>
+            <h3 className="end">🎉 Jeu terminé</h3>
+            <p className="score">Score final : {score} / {allPhrases.length}</p>
             <button className="btn-primary" onClick={initGame}>Rejouer</button>
           </>
         )}
+
+        <button className="btn-back" onClick={() => (window.location.href = '/games')}>
+          ⬅ Retour
+        </button>
       </div>
 
       <style jsx>{`
-        .sorting-container {
+        .container {
+          min-height: 100vh;
+          background: #eef2f6;
           display: flex;
           justify-content: center;
-          align-items: flex-start;
-          padding: 40px 0;
-          min-height: 100vh;
-          background: #f0f2f5;
+          align-items: center;
+          padding: 40px 20px;
+          width: 100%;
         }
 
-        .sorting-board {
-          width: 900px;
-          background: #ffffff;
+        .board {
+          background: #ffffffdd;
+          backdrop-filter: blur(8px);
           padding: 30px;
-          border-radius: 16px;
-          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+          width: 100%;
+          max-width: 900px;
+          border-radius: 20px;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+          animation: fadeIn .3s ease;
+          text-align: center;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         .title {
-          text-align: center;
-          font-size: 28px;
+          font-size: 32px;
           font-weight: 700;
-          margin-bottom: 10px;
-        }
-
-        .score {
-          text-align: center;
-          font-size: 18px;
+          color: #3A63B7;
           margin-bottom: 10px;
         }
 
         .subtitle {
-          text-align: center;
-          font-size: 15px;
-          margin-bottom: 25px;
           color: #555;
+          margin-bottom: 25px;
         }
 
-        .columns-wrapper {
+        .columns {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 20px;
@@ -195,69 +198,90 @@ export default function SortingGame() {
         }
 
         .column {
-          background: #f9f9f9;
-          border: 2px solid #d1d1d1;
+          border: 3px dashed #c7cce3;
+          background: #f6f7fb;
+          border-radius: 14px;
           padding: 20px;
-          border-radius: 12px;
-          min-height: 250px;
+          min-height: 220px;
         }
 
         .column-title {
           font-size: 20px;
-          font-weight: 600;
+          font-weight: 700;
           margin-bottom: 10px;
         }
 
-        .inappropriate {
-          color: #c20000;
-        }
+        .good { color: #2a7a2a; }
+        .bad { color: #c20000; }
 
-        .items-list {
+        .phrases {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 12px;
         }
 
-        .draggable-item {
-          background: var(--primary);
+        .phrase {
+          background: #3A63B7;
           color: white;
-          padding: 14px;
-          border-radius: 10px;
-          width: 80%;
-          text-align: center;
+          padding: 14px 18px;
           font-size: 17px;
+          border-radius: 12px;
           cursor: grab;
-          transition: transform 0.15s ease, opacity 0.15s ease;
+          width: 80%;
+          transition: transform .15s, opacity .15s;
         }
 
-        .draggable-item:hover {
-          transform: scale(1.02);
-          opacity: 0.9;
+        .phrase:hover {
+          transform: scale(1.03);
+          opacity: .9;
         }
 
         .feedback {
-          text-align: center;
-          font-weight: 600;
-          margin-top: 15px;
+          margin-top: 20px;
+          font-size: 18px;
+          font-weight: 700;
+        }
+
+        .end {
+          color: #3A63B7;
+          font-size: 24px;
+          margin-top: 10px;
+        }
+
+        .btn-primary, .btn-back {
+          margin-top: 20px;
+          padding: 12px 25px;
+          border-radius: 10px;
+          border: none;
           font-size: 16px;
+          cursor: pointer;
+          color: white;
         }
 
         .btn-primary {
-          display: block;
-          margin: 20px auto 0 auto;
-          padding: 10px 25px;
-          font-size: 16px;
-          border: none;
-          border-radius: 8px;
-          background: var(--primary);
-          color: white;
-          cursor: pointer;
+          background: #3A63B7;
+        }
+        .btn-primary:hover {
+          background: #2f4e8d;
         }
 
-        .btn-primary:hover {
-          background: #34529a;
+        .btn-back {
+          background: #888;
+          margin-top: 15px;
         }
+        .btn-back:hover {
+          background: #666;
+        }
+        .force-center {
+          width: 100%;
+          max-width: 100%;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          display: flex;
+          justify-content: center;
+        }
+
       `}</style>
     </main>
   );
