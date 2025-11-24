@@ -1,8 +1,4 @@
 'use client';
-<<<<<<< HEAD
-=======
-
->>>>>>> dev
 import { useState, useEffect } from 'react';
 
 export default function EmotionSliderPage() {
@@ -49,7 +45,7 @@ export default function EmotionSliderPage() {
 
   useEffect(() => {
     setFeedback('');
-  }, [current]);
+  }, [current]);  
 
   const validate = () => {
     const expected = currentSituation.expected;
@@ -89,25 +85,6 @@ export default function EmotionSliderPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <main className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card p-4 shadow text-center" style={{ maxWidth: '450px', background: 'gainsboro' }}>
-        <h2 className="text-teal fw-bold mb-3">Modulation émotionnelle</h2>
-
-        {!ended ? (
-          <>
-            <p className="text-muted">
-              Pour chaque situation, ajuste le curseur pour indiquer à quel point l’émotion devrait être ressentie.<br />
-              <em>Essaye d’imaginer la réaction la plus adaptée.</em>
-            </p>
-
-            <div className="fw-bold text-teal mb-2">Score : {score} / {situations.length}</div>
-
-            <div className="mb-3">{currentSituation.text}</div>
-            <div className="slider-label fw-bold text-teal mb-2">
-              Émotion : {currentSituation.emotion}
-            </div>
-=======
     <main className="slider-container">
       <div className="slider-board">
         <h2 className="slider-title">Modulation émotionnelle</h2>
@@ -123,7 +100,6 @@ export default function EmotionSliderPage() {
 
             <div className="situation-text">{currentSituation.text}</div>
             <div className="slider-label">Émotion : <strong>{currentSituation.emotion}</strong></div>
->>>>>>> dev
 
             <input
               type="range"
@@ -131,35 +107,14 @@ export default function EmotionSliderPage() {
               max="10"
               value={sliderValue}
               onChange={(e) => setSliderValue(parseInt(e.target.value))}
-<<<<<<< HEAD
-              className="form-range"
-            />
-
-            <div className="d-flex justify-content-between text-muted small">
-=======
               className="slider-input"
             />
 
             <div className="slider-scale">
->>>>>>> dev
               <span>Pas du tout</span>
               <span>Très fort</span>
             </div>
 
-<<<<<<< HEAD
-            <button className="btn btn-primary mt-3 w-75" onClick={validate}>
-              Valider
-            </button>
-
-            {feedback && <div className="mt-3">{feedback}</div>}
-
-            <div className="mt-3 text-secondary small">{currentSituation.help}</div>
-
-            <button
-              className="btn btn-secondary mt-4 w-75"
-              onClick={() => (window.location.href = '/games')}
-            >
-=======
             <button className="btn-validate" onClick={validate}>Valider</button>
 
             {feedback && <div className="feedback">{feedback}</div>}
@@ -167,28 +122,11 @@ export default function EmotionSliderPage() {
             <div className="help-text">{currentSituation.help}</div>
 
             <button className="btn-back" onClick={() => (window.location.href = '/games')}>
->>>>>>> dev
               ⬅ Retour
             </button>
           </>
         ) : (
           <>
-<<<<<<< HEAD
-            <h5>Score final : {score} / {situations.length}</h5>
-            <p>Bravo, tu as terminé le jeu de modulation émotionnelle !</p>
-            <button className="btn btn-primary w-75" onClick={restart}>
-              Rejouer
-            </button>
-            <button
-              className="btn btn-secondary mt-2 w-75"
-              onClick={() => (window.location.href = '/games')}
-            >
-              Retour au menu
-            </button>
-          </>
-        )}
-      </div>
-=======
             <h3 className="quiz-end">Bravo ! 🎉</h3>
             <p className="score">Score final : {score} / {situations.length}</p>
             <button className="btn-validate" onClick={restart}>Rejouer</button>
@@ -314,7 +252,6 @@ export default function EmotionSliderPage() {
           margin-bottom: 10px;
         }
       `}</style>
->>>>>>> dev
     </main>
   );
 }

@@ -46,16 +46,9 @@ export default function EmotionQuizPage() {
   const currentQuestion = questions[current];
 
   function selectAnswer(index: number) {
-<<<<<<< HEAD
-    if (selected !== null) return; 
-
-    setSelected(index);
-
-=======
     if (selected !== null) return;
 
     setSelected(index);
->>>>>>> dev
     if (index === currentQuestion.correct) {
       setFeedback("✅ Correct !");
       setScore(score + 1);
@@ -83,28 +76,6 @@ export default function EmotionQuizPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <main className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div
-        className="card p-4 shadow text-center"
-        style={{ maxWidth: '450px', background: 'gainsboro' }}
-      >
-        <h1 className="text-teal fw-bold">Quiz des émotions</h1>
-
-        {!ended ? (
-          <>
-            <div className="fw-bold text-teal mt-2">
-              Score : {score}/{questions.length}
-            </div>
-
-            <div className="small text-secondary mb-3">
-              Question : {current + 1}/{questions.length}
-            </div>
-
-            <p className="fw-bold">{currentQuestion.question}</p>
-
-            <div className="d-flex flex-column align-items-center">
-=======
     <main className="quiz-container">
       <div className="quiz-board">
         <h1 className="quiz-title">Quiz des émotions</h1>
@@ -116,7 +87,6 @@ export default function EmotionQuizPage() {
             <p className="question-text">{currentQuestion.question}</p>
 
             <div className="answers-list">
->>>>>>> dev
               {currentQuestion.answers.map((answer, i) => {
                 const isCorrect = i === currentQuestion.correct;
                 const isWrong = selected === i && selected !== currentQuestion.correct;
@@ -125,27 +95,8 @@ export default function EmotionQuizPage() {
                   <button
                     key={i}
                     onClick={() => selectAnswer(i)}
-<<<<<<< HEAD
-                    className="mb-2"
-                    style={{
-                      width: '80%',
-                      padding: '10px',
-                      borderRadius: 6,
-                      background:
-                        selected === null
-                          ? 'teal'
-                          : isCorrect
-                          ? '#011635'
-                          : isWrong
-                          ? '#F44336'
-                          : 'teal',
-                      color: 'white',
-                      cursor: selected === null ? 'pointer' : 'default',
-                    }}
-=======
                     className={`answer-btn ${selected !== null ? (isCorrect ? 'correct' : isWrong ? 'wrong' : '') : ''}`}
                     disabled={selected !== null}
->>>>>>> dev
                   >
                     {answer}
                   </button>
@@ -153,20 +104,6 @@ export default function EmotionQuizPage() {
               })}
             </div>
 
-<<<<<<< HEAD
-            {feedback && <p className="mt-2 fw-bold">{feedback}</p>}
-
-            {selected !== null && (
-              <button className="btn btn-dark mt-3 w-50" onClick={next}>
-                Suivant 
-              </button>
-            )}
-
-            <button
-              className="btn btn-secondary mt-4 w-75"
-              onClick={() => (window.location.href = '/games')}
-            >
-=======
             {feedback && <p className="feedback">{feedback}</p>}
 
             {selected !== null && (
@@ -176,30 +113,11 @@ export default function EmotionQuizPage() {
             )}
 
             <button className="btn-back" onClick={() => (window.location.href = '/games')}>
->>>>>>> dev
               ⬅ Retour
             </button>
           </>
         ) : (
           <>
-<<<<<<< HEAD
-            <h3 className="text-teal fw-bold">Quiz terminé 🎉</h3>
-            <p>Votre score : {score} / {questions.length}</p>
-
-            <button className="btn btn-primary w-75" onClick={restart}>
-              Rejouer
-            </button>
-
-            <button
-              className="btn btn-secondary mt-3 w-75"
-              onClick={() => (window.location.href = '/games')}
-            >
-              Retour au menu
-            </button>
-          </>
-        )}
-      </div>
-=======
             <h3 className="quiz-end">Quiz terminé 🎉</h3>
             <p className="score">Votre score : {score} / {questions.length}</p>
 
@@ -334,7 +252,6 @@ export default function EmotionQuizPage() {
           margin-bottom: 10px;
         }
       `}</style>
->>>>>>> dev
     </main>
   );
 }
