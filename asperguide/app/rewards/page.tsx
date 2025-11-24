@@ -22,7 +22,7 @@
 * PROJECT: AsperHeader
 * FILE: page.tsx
 * CREATION DATE: 22-11-2025
-* LAST Modified: 16:28:51 22-11-2025
+* LAST Modified: 16:57:12 22-11-2025
 * DESCRIPTION: 
 * rewards page
 * /STOP
@@ -92,10 +92,9 @@ export default function RewardsPage() {
             </div>
           </div>
 
-          {/* --- Grand rectangle de placement (Inventaire) --- */}
+          {/* Inventaire */}
           <div className="relative max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl p-6 mt-16 h-[500px] border border-gray-200">
 
-            {/* Crédit + bouton shop en haut à droite */}
             <div className="absolute top-4 right-4 flex items-center gap-3">
 
               {/* Crédit */}
@@ -121,7 +120,7 @@ export default function RewardsPage() {
             <div
               className="w-full h-[380px] bg-gray-100 rounded-xl border border-dashed border-gray-400"
             >
-              {/* Ici seront placés les items (drag + drop plus tard) */}
+              {/* Ici seront placés les items (drag and drop) */}
             </div>
 
             {/* Menu shop flottant */}
