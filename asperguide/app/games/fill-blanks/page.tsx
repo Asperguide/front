@@ -18,7 +18,7 @@ export default function FillBlanksPage() {
       answer: "regarder",
     },
     {
-      sentence: "Si tu veux jouer avec quelqu’un, tu dois ___.",
+      sentence: "Si tu veux jouer avec quelqu’un, tu dois lui ___.",
       answer: "demander",
     },
     {
@@ -26,8 +26,8 @@ export default function FillBlanksPage() {
       answer: "respirer",
     },
     {
-      sentence: "Quand quelqu’un te prête un objet, tu dois ___.",
-      answer: "remercier",
+      sentence: "Quand quelqu’un te prête un objet, tu dois dire ___.",
+      answer: "merci",
     },
   ];
 
