@@ -22,7 +22,7 @@
 * PROJECT: AsperHeader
 * FILE: page.tsx
 * CREATION DATE: 24-11-2025
-* LAST Modified: 18:31:42 24-11-2025
+* LAST Modified: 19:3:55 24-11-2025
 * DESCRIPTION: 
 * Games Page
 * /STOP
@@ -60,13 +60,13 @@ const games: Game[] = [
     title: 'Quiz des émotions',
     description: 'Réponds aux questions liées aux émotions.',
     category: 'social',
-    link: '/games/emotion-quiz',
+    link: '/games/emotion-qui',
   },
   {
     title: 'Vrai ou Faux',
     description: 'Détermine si les comportements sont appropriés.',
     category: 'social',
-    link: '/games/true-false',
+    link: '/games/true-fals',
   },
   {
   title: 'Complète la phrase',

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body>
+      <body suppressHydrationWarning={true}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute top-0 left-0 bg-primary text-white p-2 z-50">
           Aller au contenu
         </a>
