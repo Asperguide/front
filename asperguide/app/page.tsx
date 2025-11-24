@@ -1,3 +1,37 @@
+/* 
+* +==== BEGIN AsperHeader =================+
+* LOGO: 
+* ..........####...####..........
+* ......###.....#.#########......
+* ....##........#.###########....
+* ...#..........#.############...
+* ...#..........#.#####.######...
+* ..#.....##....#.###..#...####..
+* .#.....#.##...#.##..##########.
+* #.....##########....##...######
+* #.....#...##..#.##..####.######
+* .#...##....##.#.##..###..#####.
+* ..#.##......#.#.####...######..
+* ..#...........#.#############..
+* ..#...........#.#############..
+* ...##.........#.############...
+* ......#.......#.#########......
+* .......#......#.########.......
+* .........#####...#####.........
+* /STOP
+* PROJECT: AsperHeader
+* FILE: page.tsx
+* CREATION DATE: 22-11-2025
+* LAST Modified: 16:47:35 22-11-2025
+* DESCRIPTION: 
+* home page (not connected)
+* /STOP
+* COPYRIGHT: (c) Asperguide
+* PURPOSE: present and explain the web site
+* // AR
+* +==== END AsperHeader =================+
+*/ 
+
 'use client';
 
 import Link from "next/link";
@@ -56,7 +90,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 4 colonnes */}
+      {/* Section 4 colonnes avec les personnages */}
       <section className="py-40">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
@@ -81,7 +115,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section rectangles pleine largeur */}
+      {/* Section rectangles aligné qui apparaisse au scroll */}
       <section className="py-16 bg-gray-100" aria-labelledby="features-title">
         <div className="max-w-4xl mx-auto px-4 flex flex-col gap-8">
           <h2 id="features-title" className="sr-only">Fonctionnalités principales</h2>
