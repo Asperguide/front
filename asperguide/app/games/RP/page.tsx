@@ -1,3 +1,36 @@
+/* 
+* +==== BEGIN AsperHeader =================+
+* LOGO: 
+* ..........####...####..........
+* ......###.....#.#########......
+* ....##........#.###########....
+* ...#..........#.############...
+* ...#..........#.#####.######...
+* ..#.....##....#.###..#...####..
+* .#.....#.##...#.##..##########.
+* #.....##########....##...######
+* #.....#...##..#.##..####.######
+* .#...##....##.#.##..###..#####.
+* ..#.##......#.#.####...######..
+* ..#...........#.#############..
+* ..#...........#.#############..
+* ...##.........#.############...
+* ......#.......#.#########......
+* .......#......#.########.......
+* .........#####...#####.........
+* /STOP
+* PROJECT: AsperHeader
+* FILE: page.tsx
+* CREATION DATE: 24-11-2025
+* LAST Modified: 18:32:48 24-11-2025
+* DESCRIPTION: 
+* Social situations
+* /STOP
+* COPYRIGHT: (c) Asperguide
+* PURPOSE: Find the right word to use
+* // AR
+* +==== END AsperHeader =================+
+*/ 
 'use client';
 
 import { useState } from 'react';
@@ -5,8 +38,8 @@ import { useState } from 'react';
 type Choice = {
   id: number;
   text: string;
-  feedback: string; // feedback to show
-  correct?: boolean; // optional, indicates best answer
+  feedback: string;
+  correct?: boolean;
 };
 
 type Scenario = {
