@@ -1,46 +1,107 @@
+/* 
+* +==== BEGIN AsperHeader =================+
+* LOGO: 
+* ..........####...####..........
+* ......###.....#.#########......
+* ....##........#.###########....
+* ...#..........#.############...
+* ...#..........#.#####.######...
+* ..#.....##....#.###..#...####..
+* .#.....#.##...#.##..##########.
+* #.....##########....##...######
+* #.....#...##..#.##..####.######
+* .#...##....##.#.##..###..#####.
+* ..#.##......#.#.####...######..
+* ..#...........#.#############..
+* ..#...........#.#############..
+* ...##.........#.############...
+* ......#.......#.#########......
+* .......#......#.########.......
+* .........#####...#####.........
+* /STOP
+* PROJECT: AsperHeader
+* FILE: page.tsx
+* CREATION DATE: 22-11-2025
+* LAST Modified: 16:34:38 22-11-2025
+* DESCRIPTION: 
+* contact page
+* /STOP
+* COPYRIGHT: (c) Asperguide
+* PURPOSE: this page is for send message to the developper of the web site
+* // AR
+* +==== END AsperHeader =================+
+*/ 
+
+
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function ContactPage() {
-  useEffect(() => {
-    import('bootstrap/dist/js/bootstrap.bundle.min.js');
-  }, []);
-
   return (
     <div className="p-5">
 
       {/* Page Contact */}
-      <section className="py-5">
-        <div className="container">
-          <h2 className="text-center mb-4">Contactez-nous</h2>
-          <p className="text-center mb-5">
+      <section className="py-12">
+        <div className="max-w-3xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4">Contactez-nous</h2>
+          <p className="text-center text-gray-700 mb-8">
             Vous avez une question ou souhaitez en savoir plus sur nos offres ? Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.
           </p>
 
-          <div className="row justify-content-center">
-            <div className="col-md-6">
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Nom</label>
-                  <input type="text" className="form-control" id="name" placeholder="Votre nom" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input type="email" className="form-control" id="email" placeholder="Votre email" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="message" className="form-label">Message</label>
-                  <textarea className="form-control" id="message" rows={5} placeholder="Votre message" />
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-primary">Envoyer</button>
-                </div>
-              </form>
+          <form className="space-y-6" aria-label="Formulaire de contact">
+            <div>
+              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                Nom
+              </label>
+              <input
+                type="text"
+                id="name"
+                placeholder="Votre nom"
+                aria-label="Nom"
+                aria-required="true"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+              />
             </div>
-          </div>
+
+            <div>
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Votre email"
+                aria-label="Email"
+                aria-required="true"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
+                rows={5}
+                placeholder="Votre message"
+                aria-label="Message"
+                aria-required="true"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition resize-none"
+              />
+            </div>
+
+            <div className="text-center">
+              <button
+                type="submit"
+                aria-label="Envoyer le message"
+                className="bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+              >
+                Envoyer
+              </button>
+            </div>
+          </form>
         </div>
       </section>
     </div>

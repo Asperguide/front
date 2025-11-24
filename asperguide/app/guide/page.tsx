@@ -1,3 +1,37 @@
+/* 
+* +==== BEGIN AsperHeader =================+
+* LOGO: 
+* ..........####...####..........
+* ......###.....#.#########......
+* ....##........#.###########....
+* ...#..........#.############...
+* ...#..........#.#####.######...
+* ..#.....##....#.###..#...####..
+* .#.....#.##...#.##..##########.
+* #.....##########....##...######
+* #.....#...##..#.##..####.######
+* .#...##....##.#.##..###..#####.
+* ..#.##......#.#.####...######..
+* ..#...........#.#############..
+* ..#...........#.#############..
+* ...##.........#.############...
+* ......#.......#.#########......
+* .......#......#.########.......
+* .........#####...#####.........
+* /STOP
+* PROJECT: AsperHeader
+* FILE: page.tsx
+* CREATION DATE: 22-11-2025
+* LAST Modified: 16:33:18 22-11-2025
+* DESCRIPTION: 
+* guide page
+* /STOP
+* COPYRIGHT: (c) Asperguide
+* PURPOSE: this page is for the guide
+* // AR
+* +==== END AsperHeader =================+
+*/ 
+
 'use client';
 
 import { useState } from 'react';
@@ -15,6 +49,11 @@ const conseils = [
 export default function GuidePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const totalImages = 5;
+  const progression = currentIndex / conseils.length;
+  const imageIndex = Math.min(5, Math.floor(progression * totalImages));
+  const imageSrc = `/tour_${imageIndex}.png`;
+
   const handleNextTip = () => {
     if (currentIndex < conseils.length) {
       setCurrentIndex(currentIndex + 1);
@@ -22,35 +61,58 @@ export default function GuidePage() {
   };
 
   return (
-    <>
-      <main className="p-5">
-        <section className="py-5">
-          <div className="container">
-            <h2 className="text-center mb-5">Guide pour les parents</h2>
-            <p className="text-center mb-4">Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.</p>
+    <main className="p-6">
+      <section className="py-8 max-w-3xl mx-auto" aria-label="Guide étape par étape pour les parents">
+        <h2 className="text-3xl font-bold text-center mb-4">Guide pour les parents</h2>
+        <p className="text-center text-gray-700 mb-6">
+          Suivez les conseils étape par étape pour mieux accompagner votre enfant Asperger.
+        </p>
 
-            <div className="d-flex flex-column align-items-center gap-3">
-              {conseils.slice(0, currentIndex).map((tip, idx) => (
-                <div key={idx} className="card shadow p-3 w-100">
-                  <div className="card-body">
-                    <p className="card-text">{tip}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Image de la tour */}
+        <div className="flex justify-center mb-8">
+          <img
+            src={imageSrc}
+            role="img"
+            aria-label={`Illustration de la tour au niveau ${imageIndex}`}
+            alt={`Etat actuel de la tour,niveau ${imageIndex}`}
+            className="w-64 rounded-xl shadow-lg, transition-all duration-500"
+          />
+        </div>
 
-            <div className="text-center mt-4">
-              <button
-                className="btn btn-primary"
-                onClick={handleNextTip}
-                disabled={currentIndex >= conseils.length}
-              >
-                {currentIndex >= conseils.length ? "Tous les conseils ont été affichés" : "Prochain conseil"}
-              </button>
+        {/* Liste des conseils */}
+        <div className="flex flex-col gap-4 mb-6">
+          {conseils.slice(0, currentIndex).map((tip, idx) => (
+            <div
+              key={idx}
+              className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
+              role="region"
+              aria-label={`Conseil ${idx + 1} sur ${conseils.length}`}
+            >
+              <p className="text-gray-800">{tip}</p>
             </div>
-          </div>
-        </section>
-      </main>
-    </>
+          ))}
+        </div>
+
+        {/* Bouton */}
+        <div className="text-center">
+          <button
+            className={`px-6 py-2 rounded-lg font-semibold transition cursor-pointer
+              ${currentIndex >= conseils.length
+                ? 'bg-gray-300 text-gray-700 cursor-not-allowed'
+                : 'bg-primary text-white hover:bg-blue-700'
+              }`}
+            onClick={handleNextTip}
+            disabled={currentIndex >= conseils.length}
+            aria-label={currentIndex >= conseils.length
+              ? "Tous les conseils ont été affichés"
+              : "Afficher le prochain conseil"}
+          >
+            {currentIndex >= conseils.length
+              ? "Tous les conseils ont été affichés"
+              : "Prochain conseil"}
+          </button>
+        </div>
+      </section>
+    </main>
   );
 }
