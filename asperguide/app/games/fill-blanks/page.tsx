@@ -7,29 +7,47 @@ interface Question {
   answer: string;
 }
 
+interface Level {
+  name: string;
+  questions: Question[];
+}
+
 export default function FillBlanksPage() {
-  const questions: Question[] = [
+  const levels: Level[] = [
     {
-      sentence: "Quand quelqu’un te parle, tu dois ___.",
-      answer: "écouter",
+      name: "Niveau 1 : Facile",
+      questions: [
+        { sentence: "Quand quelqu’un te parle, tu dois ___.", answer: "écouter" },
+        { sentence: "Quand tu veux traverser la rue, tu dois ___.", answer: "regarder" },
+        { sentence: "Si tu veux jouer avec quelqu’un, tu dois lui ___.", answer: "demander" },
+        { sentence: "Quand tu es fatigué, il faut ___.", answer: "dormir" },
+        { sentence: "Quand quelqu’un te prête quelque chose, tu dois dire ___.", answer: "merci" },
+      ],
     },
     {
-      sentence: "Quand tu veux traverser la rue, tu dois d’abord ___.",
-      answer: "regarder",
+      name: "Niveau 2 : Intermédiaire",
+      questions: [
+        { sentence: "Pour entrer dans une pièce, il faut d'abord ___.", answer: "frapper" },
+        { sentence: "Quand quelqu’un te blesse sans le vouloir, tu peux lui dire ___.", answer: "ce n’est pas grave" },
+        { sentence: "Si un ami est triste, tu peux essayer de l’___.", answer: "aider" },
+        { sentence: "Quand tu veux poser une question en classe, tu dois ___.", answer: "lever la main" },
+        { sentence: "Pour apprendre quelque chose, il faut ___.", answer: "pratiquer" },
+      ],
     },
     {
-      sentence: "Si tu veux jouer avec quelqu’un, tu dois lui ___.",
-      answer: "demander",
-    },
-    {
-      sentence: "Quand tu es en colère, il vaut mieux ___.",
-      answer: "respirer",
-    },
-    {
-      sentence: "Quand quelqu’un te prête un objet, tu dois dire ___.",
-      answer: "merci",
+      name: "Niveau 3 : Difficile",
+      questions: [
+        { sentence: "Quand tu fais une erreur, il est important de ___.", answer: "s'excuser" },
+        { sentence: "Lorsque deux personnes parlent ensemble, il ne faut pas ___.", answer: "interrompre" },
+        { sentence: "Pour éviter un conflit, il peut être utile de ___.", answer: "discuter" },
+        { sentence: "Quand quelqu’un te critique, tu peux ___.", answer: "rester calme" },
+        { sentence: "Quand tu promets quelque chose, tu dois ___.", answer: "tenir ta promesse" },
+      ],
     },
   ];
+
+  const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [unlockedLevels, setUnlockedLevels] = useState([true, false, false]);
 
   const [current, setCurrent] = useState(0);
   const [input, setInput] = useState('');
@@ -37,9 +55,13 @@ export default function FillBlanksPage() {
   const [feedback, setFeedback] = useState('');
   const [ended, setEnded] = useState(false);
 
+  const level = selectedLevel !== null ? levels[selectedLevel] : null;
+  const questions = level?.questions ?? [];
   const currentQuestion = questions[current];
 
   function validate() {
+    if (!currentQuestion) return;
+
     if (input.trim().toLowerCase() === currentQuestion.answer.toLowerCase()) {
       setFeedback("✅ Correct !");
       setScore(score + 1);
@@ -54,152 +76,208 @@ export default function FillBlanksPage() {
       setInput('');
       setFeedback('');
     } else {
+      // Déblocage du niveau suivant
+      if (selectedLevel !== null && selectedLevel < 2) {
+        const newUnlocked = [...unlockedLevels];
+        newUnlocked[selectedLevel + 1] = true;
+        setUnlockedLevels(newUnlocked);
+      }
       setEnded(true);
     }
   }
 
   function restart() {
     setCurrent(0);
-    setInput('');
     setScore(0);
+    setInput('');
     setFeedback('');
     setEnded(false);
   }
 
   return (
     <main className="quiz-container">
-      <div className="quiz-board">
-        <h1 className="quiz-title">Complète la phrase</h1>
 
-        {!ended ? (
-          <>
-            <div className="score">Score : {score} / {questions.length}</div>
-            <div className="question-count">Question : {current + 1} / {questions.length}</div>
+      {/* Sélection des niveaux */}
+      {selectedLevel === null && (
+        <div className="level-select">
+          <h1 className="quiz-title">Complète la phrase 🖊️</h1>
+          <p className="subtitle">Choisis ton niveau pour commencer</p>
 
-            <p className="question-text">{currentQuestion.sentence.replace("___", "_____")}</p>
-
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Votre réponse..."
-              className="text-input"
-            />
-
-            {!feedback && (
-              <button className="btn-next" onClick={validate}>
-                Valider
+          <div className="level-grid">
+            {levels.map((lvl, i) => (
+              <button
+                key={i}
+                disabled={!unlockedLevels[i]}
+                className={`level-btn ${unlockedLevels[i] ? "" : "locked"}`}
+                onClick={() => unlockedLevels[i] && setSelectedLevel(i)}
+              >
+                {lvl.name}
               </button>
-            )}
+            ))}
+          </div>
 
-            {feedback && <p className="feedback">{feedback}</p>}
+          <button className="btn-back" onClick={() => (window.location.href = '/games')}>
+            ⬅ Retour
+          </button>
+        </div>
+      )}
 
-            {feedback && (
-              <button className="btn-next" onClick={next}>
-                Suivant
+      {/* Jeu */}
+      {selectedLevel !== null && (
+        <div className="quiz-board">
+
+          <h1 className="quiz-title">{level?.name}</h1>
+
+          {!ended ? (
+            <>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar-fill"
+                  style={{ width: `${((current + 1) / questions.length) * 100}%` }}
+                />
+              </div>
+
+              <div className="score">Score : {score} / {questions.length}</div>
+              <div className="question-count">Question : {current + 1} / {questions.length}</div>
+
+              <p className="question-text">
+                {currentQuestion.sentence.replace("___", "_____")}
+              </p>
+
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="text-input"
+                placeholder="Votre réponse..."
+              />
+
+              {!feedback && (
+                <button className="btn-next" onClick={validate}>
+                  Valider
+                </button>
+              )}
+
+              {feedback && <p className="feedback">{feedback}</p>}
+
+              {feedback && (
+                <button className="btn-next" onClick={next}>
+                  Suivant
+                </button>
+              )}
+
+              <button className="btn-back" onClick={() => setSelectedLevel(null)}>
+                ⬅ Retour niveaux
               </button>
-            )}
+            </>
+          ) : (
+            <>
+              <h3 className="quiz-end">Niveau terminé 🎉</h3>
+              <p className="score">Votre score : {score} / {questions.length}</p>
 
-            <button className="btn-back" onClick={() => (window.location.href = '/games')}>
-              ⬅ Retour
-            </button>
-          </>
-        ) : (
-          <>
-            <h3 className="quiz-end">Jeu terminé 🎉</h3>
-            <p className="score">Votre score : {score} / {questions.length}</p>
-
-            <button className="btn-restart" onClick={restart}>Rejouer</button>
-            <button className="btn-back" onClick={() => (window.location.href = '/games')}>
-              Retour au menu
-            </button>
-          </>
-        )}
-      </div>
+              <button className="btn-restart" onClick={restart}>Rejouer</button>
+              <button className="btn-back" onClick={() => setSelectedLevel(null)}>Retour aux niveaux</button>
+            </>
+          )}
+        </div>
+      )}
 
       <style jsx>{`
         .quiz-container {
           display: flex;
           justify-content: center;
-          align-items: flex-start;
-          padding: 50px 20px;
+          align-items: center;
+          padding: 20px;
           min-height: 100vh;
-          background: #f0f2f5;
+          background: #eef2f6;
+        }
+
+        .level-select {
+          background: white;
+          padding: 25px;
+          border-radius: 18px;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+          text-align: center;
+          max-width: 400px;
+          width: 100%;
+        }
+
+        .level-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: 20px;
+        }
+
+        .level-btn {
+          background: #3A63B7;
+          color: white;
+          padding: 12px;
+          border-radius: 10px;
+          border: none;
+          font-size: 18px;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .level-btn.locked {
+          background: #9aa8c9;
+          cursor: not-allowed;
+          opacity: 0.6;
         }
 
         .quiz-board {
-          background: #ffffff;
+          background: white;
+          padding: 30px;
+          border-radius: 20px;
+          box-shadow: 0 8px 25px rgba(0,0,0,0.12);
           max-width: 500px;
           width: 100%;
-          padding: 30px;
-          border-radius: 16px;
-          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
           text-align: center;
         }
 
-        .quiz-title {
-          font-size: 28px;
-          font-weight: 700;
-          margin-bottom: 15px;
-          color: #3A63B7;
+        .progress-bar-container {
+          width: 100%;
+          height: 10px;
+          background: #d8dff2;
+          border-radius: 8px;
+          overflow: hidden;
+          margin: 15px 0 20px;
         }
 
-        .score, .question-count {
-          font-size: 16px;
-          margin-bottom: 8px;
-          font-weight: 600;
-          color: #3A63B7;
-        }
-
-        .question-text {
-          font-size: 18px;
-          margin: 20px 0;
-          font-weight: 500;
+        .progress-bar-fill {
+          height: 100%;
+          background: #3A63B7;
+          transition: width 0.3s ease;
         }
 
         .text-input {
           width: 80%;
-          padding: 10px;
+          padding: 12px;
           border: 2px solid #3A63B7;
-          border-radius: 8px;
+          border-radius: 10px;
           font-size: 16px;
-          margin-bottom: 12px;
         }
 
         .btn-next, .btn-restart, .btn-back {
-          display: block;
-          margin: 15px auto 0 auto;
-          padding: 10px 25px;
-          font-size: 16px;
+          margin-top: 15px;
+          padding: 12px 25px;
           border: none;
-          border-radius: 8px;
+          border-radius: 10px;
+          font-size: 16px;
           cursor: pointer;
         }
 
-        .btn-next {
-          background: #3A63B7;
-          color: white;
-        }
-
-        .btn-next:hover {
-          background: #34529a;
-        }
-
-        .btn-restart {
+        .btn-next, .btn-restart {
           background: #3A63B7;
           color: white;
         }
 
         .btn-back {
-          background: #999;
+          background: #888;
           color: white;
         }
 
-        .feedback {
-          font-weight: 600;
-          margin-top: 12px;
-          font-size: 16px;
-        }
       `}</style>
     </main>
   );
