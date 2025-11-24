@@ -22,7 +22,7 @@
 * PROJECT: AsperHeader
 * FILE: page.tsx
 * CREATION DATE: 24-11-2025
-* LAST Modified: 19:3:55 24-11-2025
+* LAST Modified: 19:8:58 24-11-2025
 * DESCRIPTION: 
 * Games Page
 * /STOP
@@ -55,7 +55,7 @@ const games: Game[] = [
     description: 'Ajuste l’intensité d’une émotion selon la situation.',
     category: 'social',
     link: '/games/emotion-slider',
-  },
+  },/*
   {
     title: 'Quiz des émotions',
     description: 'Réponds aux questions liées aux émotions.',
@@ -67,7 +67,7 @@ const games: Game[] = [
     description: 'Détermine si les comportements sont appropriés.',
     category: 'social',
     link: '/games/true-fals',
-  },
+  },*/ 
   {
   title: 'Complète la phrase',
   description: 'Remplis les phrases avec le bon comportement.',
