@@ -40,6 +40,12 @@ const games: Game[] = [
   description: 'Remplis les phrases avec le bon comportement.',
   category: 'social',
   link: '/games/fill-blanks',
+},  
+{
+  title: 'Simulation sociale',
+  description: 'Fais le bon choix!',
+  category: 'social',
+  link: '/games/RP',
 },
 ];
 
