@@ -1,10 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-<<<<<<< HEAD
-import 'bootstrap/dist/css/bootstrap.min.css';
-=======
->>>>>>> dev
 
 export default function TrueFalseGame() {
   const questions = [
@@ -20,17 +16,12 @@ export default function TrueFalseGame() {
   const [score, setScore] = useState(0);
   const [result, setResult] = useState('');
   const [finished, setFinished] = useState(false);
-<<<<<<< HEAD
-
-  const checkAnswer = (answer: boolean) => {
-=======
   const [answered, setAnswered] = useState(false);
 
   const checkAnswer = (answer: boolean) => {
     if (answered) return;
     setAnswered(true);
 
->>>>>>> dev
     const correct = questions[current].correct;
     if (answer === correct) {
       setResult('✅ Bonne réponse !');
@@ -38,17 +29,6 @@ export default function TrueFalseGame() {
     } else {
       setResult('❌ Mauvaise réponse.');
     }
-<<<<<<< HEAD
-
-    setTimeout(() => {
-      if (current + 1 < questions.length) {
-        setCurrent(current + 1);
-        setResult('');
-      } else {
-        setFinished(true);
-      }
-    }, 1200);
-=======
   };
 
   const next = () => {
@@ -59,7 +39,6 @@ export default function TrueFalseGame() {
     } else {
       setFinished(true);
     }
->>>>>>> dev
   };
 
   const restartGame = () => {
@@ -67,27 +46,6 @@ export default function TrueFalseGame() {
     setScore(0);
     setResult('');
     setFinished(false);
-<<<<<<< HEAD
-  };
-
-  return (
-    <main className="d-flex flex-column align-items-center justify-content-center min-vh-100 bg-light">
-      <div className="card p-4 shadow" style={{ maxWidth: '400px', backgroundColor: 'gainsboro', borderRadius: '16px' }}>
-        <h2 style={{ color: 'teal', fontWeight: 'bold' }}>Vrai ou Faux</h2>
-
-        {!finished ? (
-          <>
-            <div id="score" className="fw-bold text-teal mt-2">
-              Score : {score} / {questions.length}
-            </div>
-            <p className="mt-3">{questions[current].text}</p>
-
-            <div>
-              <button className="btn w-75 mt-2" style={{ backgroundColor: 'teal', color: 'white' }} onClick={() => checkAnswer(true)}>
-                Vrai
-              </button>
-              <button className="btn w-75 mt-2" style={{ backgroundColor: 'teal', color: 'white' }} onClick={() => checkAnswer(false)}>
-=======
     setAnswered(false);
   };
 
@@ -114,57 +72,28 @@ export default function TrueFalseGame() {
                 onClick={() => checkAnswer(false)}
                 disabled={answered}
               >
->>>>>>> dev
                 Faux
               </button>
             </div>
 
-<<<<<<< HEAD
-            {result && (
-              <p className="mt-3 fw-semibold" style={{ color: result.includes('✅') ? 'green' : 'red' }}>
-                {result}
-              </p>
-=======
             {result && <p className={`feedback ${result.includes('✅') ? 'correct' : 'wrong'}`}>{result}</p>}
 
             {answered && (
               <button className="btn-next" onClick={next}>
                 Suivant
               </button>
->>>>>>> dev
             )}
           </>
         ) : (
           <>
-<<<<<<< HEAD
-            <p className="fw-bold mt-3 text-teal">
-              Score final : {score} / {questions.length}
-            </p>
-            <p>Bravo, vous avez terminé le jeu ! 🎉</p>
-            <button className="btn btn-primary w-75 mt-2" onClick={restartGame}>
-=======
             <h3 className="quiz-end">Quiz terminé 🎉</h3>
             <p className="score">Score final : {score} / {questions.length}</p>
             <button className="btn-restart" onClick={restartGame}>
->>>>>>> dev
               🔄 Rejouer
             </button>
           </>
         )}
 
-<<<<<<< HEAD
-        <button
-          className="btn btn-secondary w-75 mt-3"
-          onClick={() => (window.location.href = '/games')}
-          style={{ backgroundColor: 'dimgray', border: 'none' }}
-        >
-          ⬅ Retour au menu
-        </button>
-      </div>
-    </main>
-  );
-}
-=======
         <button className="btn-back" onClick={() => (window.location.href = '/games')}>
           ⬅ Retour au menu
         </button>
@@ -290,4 +219,3 @@ export default function TrueFalseGame() {
     </main>
   );
 }
->>>>>>> dev
