@@ -46,10 +46,16 @@ export default function EmotionQuizPage() {
   const currentQuestion = questions[current];
 
   function selectAnswer(index: number) {
+<<<<<<< HEAD
     if (selected !== null) return; 
 
     setSelected(index);
 
+=======
+    if (selected !== null) return;
+
+    setSelected(index);
+>>>>>>> dev
     if (index === currentQuestion.correct) {
       setFeedback("✅ Correct !");
       setScore(score + 1);
@@ -77,6 +83,7 @@ export default function EmotionQuizPage() {
   }
 
   return (
+<<<<<<< HEAD
     <main className="d-flex justify-content-center align-items-center vh-100 bg-light">
       <div
         className="card p-4 shadow text-center"
@@ -97,6 +104,19 @@ export default function EmotionQuizPage() {
             <p className="fw-bold">{currentQuestion.question}</p>
 
             <div className="d-flex flex-column align-items-center">
+=======
+    <main className="quiz-container">
+      <div className="quiz-board">
+        <h1 className="quiz-title">Quiz des émotions</h1>
+
+        {!ended ? (
+          <>
+            <div className="score">Score : {score} / {questions.length}</div>
+            <div className="question-count">Question : {current + 1} / {questions.length}</div>
+            <p className="question-text">{currentQuestion.question}</p>
+
+            <div className="answers-list">
+>>>>>>> dev
               {currentQuestion.answers.map((answer, i) => {
                 const isCorrect = i === currentQuestion.correct;
                 const isWrong = selected === i && selected !== currentQuestion.correct;
@@ -105,6 +125,7 @@ export default function EmotionQuizPage() {
                   <button
                     key={i}
                     onClick={() => selectAnswer(i)}
+<<<<<<< HEAD
                     className="mb-2"
                     style={{
                       width: '80%',
@@ -121,6 +142,10 @@ export default function EmotionQuizPage() {
                       color: 'white',
                       cursor: selected === null ? 'pointer' : 'default',
                     }}
+=======
+                    className={`answer-btn ${selected !== null ? (isCorrect ? 'correct' : isWrong ? 'wrong' : '') : ''}`}
+                    disabled={selected !== null}
+>>>>>>> dev
                   >
                     {answer}
                   </button>
@@ -128,6 +153,7 @@ export default function EmotionQuizPage() {
               })}
             </div>
 
+<<<<<<< HEAD
             {feedback && <p className="mt-2 fw-bold">{feedback}</p>}
 
             {selected !== null && (
@@ -140,11 +166,23 @@ export default function EmotionQuizPage() {
               className="btn btn-secondary mt-4 w-75"
               onClick={() => (window.location.href = '/games')}
             >
+=======
+            {feedback && <p className="feedback">{feedback}</p>}
+
+            {selected !== null && (
+              <button className="btn-next" onClick={next}>
+                Suivant
+              </button>
+            )}
+
+            <button className="btn-back" onClick={() => (window.location.href = '/games')}>
+>>>>>>> dev
               ⬅ Retour
             </button>
           </>
         ) : (
           <>
+<<<<<<< HEAD
             <h3 className="text-teal fw-bold">Quiz terminé 🎉</h3>
             <p>Votre score : {score} / {questions.length}</p>
 
@@ -161,6 +199,142 @@ export default function EmotionQuizPage() {
           </>
         )}
       </div>
+=======
+            <h3 className="quiz-end">Quiz terminé 🎉</h3>
+            <p className="score">Votre score : {score} / {questions.length}</p>
+
+            <button className="btn-restart" onClick={restart}>Rejouer</button>
+            <button className="btn-back" onClick={() => (window.location.href = '/games')}>Retour au menu</button>
+          </>
+        )}
+      </div>
+
+      <style jsx>{`
+        .quiz-container {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 50px 20px;
+          min-height: 100vh;
+          background: #f0f2f5;
+        }
+
+        .quiz-board {
+          background: #ffffff;
+          max-width: 500px;
+          width: 100%;
+          padding: 30px;
+          border-radius: 16px;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+          text-align: center;
+        }
+
+        .quiz-title {
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 15px;
+          color: #3A63B7;
+        }
+
+        .score, .question-count {
+          font-size: 16px;
+          margin-bottom: 8px;
+          font-weight: 600;
+          color: #3A63B7;
+        }
+
+        .question-text {
+          font-size: 18px;
+          margin: 20px 0;
+          font-weight: 500;
+        }
+
+        .answers-list {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .answer-btn {
+          width: 80%;
+          padding: 12px;
+          border-radius: 8px;
+          border: none;
+          background: #3A63B7;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          transition: 0.2s ease;
+        }
+
+        .answer-btn:hover {
+          opacity: 0.9;
+        }
+
+        .answer-btn.correct {
+          background: #011635;
+        }
+
+        .answer-btn.wrong {
+          background: #F44336;
+        }
+
+        .answer-btn:disabled {
+          cursor: default;
+        }
+
+        .feedback {
+          font-weight: 600;
+          margin-top: 12px;
+          font-size: 16px;
+        }
+
+        .btn-next, .btn-restart, .btn-back {
+          display: block;
+          margin: 15px auto 0 auto;
+          padding: 10px 25px;
+          font-size: 16px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+
+        .btn-next {
+          background: #3A63B7;
+          color: white;
+        }
+
+        .btn-next:hover {
+          background: #34529a;
+        }
+
+        .btn-restart {
+          background: #3A63B7;
+          color: white;
+        }
+
+        .btn-restart:hover {
+          background: #34529a;
+        }
+
+        .btn-back {
+          background: #999;
+          color: white;
+          margin-top: 10px;
+        }
+
+        .btn-back:hover {
+          background: #777;
+        }
+
+        .quiz-end {
+          color: #3A63B7;
+          font-weight: 700;
+          margin-bottom: 10px;
+        }
+      `}</style>
+>>>>>>> dev
     </main>
   );
 }

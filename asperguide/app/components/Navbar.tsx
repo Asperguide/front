@@ -25,7 +25,8 @@ export default function Navbar() {
     pathname?.startsWith('/games') ||
     pathname?.startsWith('/guide') ||
     pathname?.startsWith('/dashboard') ||
-    pathname?.startsWith('/rewards')
+    pathname?.startsWith('/rewards') ||
+    pathname?.startsWith('/profil')
   ) {
     navLinks = [
       { label: 'Home', href: '/home' },
@@ -45,115 +46,117 @@ export default function Navbar() {
   const logoLink = isLoggedIn ? '/home' : '/';
 
   return (
-    <>
-      <nav className="navbar navbar-dark bg-dark py-2">
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-          {/* 🟦 Logo à gauche */}
-          <Link className="navbar-brand d-flex align-items-center" href={logoLink}>
-            <Image
-              src="/Asperguide_logo_3.png"
-              width={30}
-              height={30}
-              alt="Logo AsperGuide"
-              className="me-2"
-            />
-            <span>AsperGuide</span>
-          </Link>
+    <nav className="bg-gray-900 text-white" aria-label="Navigation principale">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
-          {/* 🟩 Liens centrés sur desktop */}
-          <div className="d-none d-lg-flex flex-grow-1 justify-content-center">
-            <ul className="navbar-nav flex-row gap-4 mb-0">
-              {navLinks.map((link) => (
-                <li key={link.href} className="nav-item">
-                  <Link
-                    className={`nav-link ${pathname === link.href ? 'active' : ''}`}
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Logo */}
+        <Link href={logoLink} className="flex items-center gap-2" aria-label="Aller à la page d'accueil">
+          <Image
+            src="/Asperguide_logo_3.png"
+            width={30}
+            height={30}
+            alt="Logo AsperGuide"
+          />
+          <span className="font-semibold">AsperGuide</span>
+        </Link>
 
-          {/* 🟧 Bouton burger visible seulement sur mobile */}
-          <button
-            className="navbar-toggler d-lg-none"
-            type="button"
-            aria-expanded={open}
-            aria-label="Toggle navigation"
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        {/* Desktop links */}
+        <div className="hidden lg:flex gap-8" role="menubar">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`transition ${
+                pathname === link.href ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              role="menuitem"
+              aria-current={pathname === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
 
-          {/* 🟧 Profil / Connexion à droite */}
-          <div className="d-none d-lg-block">
+        {/* Desktop profile */}
+        <div className="hidden lg:flex items-center gap-4">
+          {isLoggedIn ? (
+            <Link
+              href="/profil"
+              className="px-4 py-2 border border-white rounded hover:bg-white hover:text-gray-900 transition"
+              aria-label="Accéder à votre profil"
+            >
+              Profil
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 border border-white rounded hover:bg-white hover:text-gray-900 transition"
+              aria-label="Se connecter"
+            >
+              Connexion
+            </Link>
+          )}
+        </div>
+
+        {/* Burger button */}
+        <button
+          className="lg:hidden flex flex-col gap-1"
+          onClick={() => setOpen((prev) => !prev)}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? 'Fermer le menu mobile' : 'Ouvrir le menu mobile'}
+        >
+          <span className="w-6 h-0.5 bg-white"></span>
+          <span className="w-6 h-0.5 bg-white"></span>
+          <span className="w-6 h-0.5 bg-white"></span>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        id="mobile-menu"
+        className={`lg:hidden overflow-hidden bg-gray-900 transition-all duration-300 ${
+          open ? 'max-h-96' : 'max-h-0'
+        }`}
+      >
+        <div className="px-4 py-3 space-y-3" role="menu">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`block ${
+                pathname === link.href ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              role="menuitem"
+              aria-current={pathname === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          <div className="pt-3 flex flex-col gap-2">
             {isLoggedIn ? (
-              <Link href="/profil" className="btn btn-outline-light">
+              <Link
+                href="/profil"
+                className="px-4 py-2 border border-white rounded inline-block hover:bg-white hover:text-gray-900 transition"
+                aria-label="Accéder à votre profil"
+                role="menuitem"
+              >
                 Profil
               </Link>
             ) : (
-              <Link href="/login" className="btn btn-outline-light">
+              <Link
+                href="/login"
+                className="px-4 py-2 border border-white rounded inline-block hover:bg-white hover:text-gray-900 transition"
+                aria-label="Se connecter"
+                role="menuitem"
+              >
                 Connexion
               </Link>
             )}
           </div>
         </div>
-
-        {/* 🟩 Menu déroulant (mobile seulement) */}
-        <div className={`collapse-custom ${open ? 'open' : ''} d-lg-none`}>
-          <ul className="navbar-nav mb-2 ps-3">
-            {navLinks.map((link) => (
-              <li key={link.href} className="nav-item">
-                <Link
-                  className={`nav-link ${pathname === link.href ? 'active' : ''}`}
-                  href={link.href}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <div className="d-flex justify-content-end pe-3 pb-3">
-            {isLoggedIn ? (
-              <Link href="/profil" className="btn btn-outline-light">
-                Profil
-              </Link>
-            ) : (
-              <Link href="/login" className="btn btn-outline-light">
-                Connexion
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      <style jsx>{`
-        .collapse-custom {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-          background-color: #212529;
-        }
-        .collapse-custom.open {
-          max-height: 500px;
-        }
-        @media (min-width: 992px) {
-          .collapse-custom {
-            display: none !important;
-          }
-        }
-        .nav-link {
-          color: rgba(255, 255, 255, 0.85);
-          transition: color 0.2s ease;
-        }
-        .nav-link:hover,
-        .nav-link.active {
-          color: #fff;
-        }
-      `}</style>
-    </>
+      </div>
+    </nav>
   );
 }

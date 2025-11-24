@@ -1,4 +1,8 @@
 'use client';
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 import { useState, useEffect } from 'react';
 
 export default function EmotionSliderPage() {
@@ -85,6 +89,7 @@ export default function EmotionSliderPage() {
   };
 
   return (
+<<<<<<< HEAD
     <main className="d-flex justify-content-center align-items-center vh-100 bg-light">
       <div className="card p-4 shadow text-center" style={{ maxWidth: '450px', background: 'gainsboro' }}>
         <h2 className="text-teal fw-bold mb-3">Modulation émotionnelle</h2>
@@ -102,6 +107,23 @@ export default function EmotionSliderPage() {
             <div className="slider-label fw-bold text-teal mb-2">
               Émotion : {currentSituation.emotion}
             </div>
+=======
+    <main className="slider-container">
+      <div className="slider-board">
+        <h2 className="slider-title">Modulation émotionnelle</h2>
+
+        {!ended ? (
+          <>
+            <p className="instructions">
+              Ajuste le curseur pour indiquer l’intensité de l’émotion.<br />
+              <em>Essaie d’imaginer la réaction la plus adaptée.</em>
+            </p>
+
+            <div className="score">Score : {score} / {situations.length}</div>
+
+            <div className="situation-text">{currentSituation.text}</div>
+            <div className="slider-label">Émotion : <strong>{currentSituation.emotion}</strong></div>
+>>>>>>> dev
 
             <input
               type="range"
@@ -109,14 +131,22 @@ export default function EmotionSliderPage() {
               max="10"
               value={sliderValue}
               onChange={(e) => setSliderValue(parseInt(e.target.value))}
+<<<<<<< HEAD
               className="form-range"
             />
 
             <div className="d-flex justify-content-between text-muted small">
+=======
+              className="slider-input"
+            />
+
+            <div className="slider-scale">
+>>>>>>> dev
               <span>Pas du tout</span>
               <span>Très fort</span>
             </div>
 
+<<<<<<< HEAD
             <button className="btn btn-primary mt-3 w-75" onClick={validate}>
               Valider
             </button>
@@ -129,11 +159,21 @@ export default function EmotionSliderPage() {
               className="btn btn-secondary mt-4 w-75"
               onClick={() => (window.location.href = '/games')}
             >
+=======
+            <button className="btn-validate" onClick={validate}>Valider</button>
+
+            {feedback && <div className="feedback">{feedback}</div>}
+
+            <div className="help-text">{currentSituation.help}</div>
+
+            <button className="btn-back" onClick={() => (window.location.href = '/games')}>
+>>>>>>> dev
               ⬅ Retour
             </button>
           </>
         ) : (
           <>
+<<<<<<< HEAD
             <h5>Score final : {score} / {situations.length}</h5>
             <p>Bravo, tu as terminé le jeu de modulation émotionnelle !</p>
             <button className="btn btn-primary w-75" onClick={restart}>
@@ -148,6 +188,133 @@ export default function EmotionSliderPage() {
           </>
         )}
       </div>
+=======
+            <h3 className="quiz-end">Bravo ! 🎉</h3>
+            <p className="score">Score final : {score} / {situations.length}</p>
+            <button className="btn-validate" onClick={restart}>Rejouer</button>
+            <button className="btn-back" onClick={() => (window.location.href = '/games')}>Retour au menu</button>
+          </>
+        )}
+      </div>
+
+      <style jsx>{`
+        .slider-container {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 50px 20px;
+          min-height: 100vh;
+          background: #f0f2f5;
+        }
+
+        .slider-board {
+          background: #ffffff;
+          max-width: 500px;
+          width: 100%;
+          padding: 30px;
+          border-radius: 16px;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+          text-align: center;
+        }
+
+        .slider-title {
+          font-size: 26px;
+          font-weight: 700;
+          margin-bottom: 15px;
+          color: #3A63B7;
+        }
+
+        .instructions {
+          font-size: 14px;
+          color: #555;
+          margin-bottom: 15px;
+        }
+
+        .score {
+          font-weight: 600;
+          margin-bottom: 15px;
+          color: #3A63B7;
+        }
+
+        .situation-text {
+          font-size: 18px;
+          margin-bottom: 10px;
+          font-weight: 500;
+        }
+
+        .slider-label {
+          margin-bottom: 8px;
+          font-weight: 600;
+          color: #3A63B7;
+        }
+
+        .slider-input {
+          width: 80%;
+          margin: 0 auto 5px auto;
+        }
+
+        .slider-scale {
+          display: flex;
+          justify-content: space-between;
+          font-size: 12px;
+          color: #666;
+          margin-bottom: 15px;
+          width: 80%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .btn-validate {
+          display: block;
+          margin: 15px auto 0 auto;
+          padding: 10px 25px;
+          font-size: 16px;
+          border: none;
+          border-radius: 8px;
+          background: #3A63B7;
+          color: white;
+          cursor: pointer;
+        }
+
+        .btn-validate:hover {
+          background: #5B85CF;
+        }
+
+        .feedback {
+          font-weight: 600;
+          margin-top: 12px;
+          font-size: 16px;
+        }
+
+        .help-text {
+          font-size: 12px;
+          color: #666;
+          margin-top: 10px;
+        }
+
+        .btn-back {
+          display: block;
+          margin: 15px auto 0 auto;
+          padding: 10px 25px;
+          font-size: 16px;
+          border: none;
+          border-radius: 8px;
+          background: #999;
+          color: white;
+          cursor: pointer;
+        }
+
+        .btn-back:hover {
+          background: #777;
+        }
+
+        .quiz-end {
+          color: #3A63B7;
+          font-weight: 700;
+          margin-bottom: 10px;
+        }
+      `}</style>
+>>>>>>> dev
     </main>
   );
 }
