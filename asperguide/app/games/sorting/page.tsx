@@ -21,27 +21,34 @@
 * /STOP
 * PROJECT: AsperHeader
 * FILE: page.tsx
-* CREATION DATE: 24-11-2025
-* LAST Modified: 18:57:37 24-11-2025
+* CREATION DATE: 27-11-2025
+* LAST Modified: 15:38:50 27-11-2025
 * DESCRIPTION: 
-* Sorting Game – nouvelle DA
+* soting game page
 * /STOP
 * COPYRIGHT: (c) Asperguide
-* PURPOSE: Appropriate or inappropriate?
+* PURPOSE: sorting game
 * // AR
 * +==== END AsperHeader =================+
-*/
+*/ 
 
 'use client';
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 interface Phrase {
   text: string;
   type: 'appropriate' | 'inappropriate';
 }
 
+interface PlacedPhrase extends Phrase {
+  correct: boolean;
+}
+
 export default function SortingGame() {
+  const router = useRouter();
+
   const allPhrases: Phrase[] = [
     { text: 'Dire merci après avoir reçu de l’aide', type: 'appropriate' },
     { text: 'Couper la parole à quelqu’un', type: 'inappropriate' },
@@ -58,6 +65,7 @@ export default function SortingGame() {
   const [score, setScore] = useState(0);
   const [ended, setEnded] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [placedPhrases, setPlacedPhrases] = useState<{appropriate: PlacedPhrase[]; inappropriate: PlacedPhrase[]}>({appropriate: [], inappropriate: []});
 
   useEffect(() => {
     initGame();
@@ -77,6 +85,7 @@ export default function SortingGame() {
     setEnded(false);
     setFeedback('');
     setPhrases(shuffle(allPhrases));
+    setPlacedPhrases({appropriate: [], inappropriate: []});
   };
 
   const handleDragStart = (index: number) => setDraggedIndex(index);
@@ -86,203 +95,88 @@ export default function SortingGame() {
     const phrase = phrases[draggedIndex];
     const correct = phrase.type === targetType;
 
+    // Affichage instantané du feedback
     setFeedback(correct ? '✅ Bonne réponse !' : '❌ Mauvaise réponse.');
+
     if (correct) setScore((s) => s + 1);
 
-    setTimeout(() => {
-      const remaining = phrases.filter((_, i) => i !== draggedIndex);
-      setPhrases(remaining);
-      setDraggedIndex(null);
-      if (remaining.length === 0) setEnded(true);
-    }, 400);
+    const placed: PlacedPhrase = { ...phrase, correct };
+
+    setPlacedPhrases((prev) => ({
+      ...prev,
+      [correct ? targetType : phrase.type]: [...prev[correct ? targetType : phrase.type], placed]
+    }));
+
+    setPhrases((prev) => prev.filter((_, i) => i !== draggedIndex));
+    setDraggedIndex(null);
+
+    if (phrases.length === 1) setEnded(true);
+  };
+
+  const handleQuit = () => {
+    router.push('/games');
   };
 
   return (
-    <main className="container force-center">
-      <div className="board">
-        <h2 className="title">Approprié ou Non ?</h2>
-        <p className="score">Score : {score} / {allPhrases.length}</p>
-        {!ended && <p className="subtitle">Glisse chaque phrase dans la bonne colonne.</p>}
+    <main className="flex flex-col items-center py-10 min-h-screen bg-gray-100" aria-label="Jeu Approprié ou Non">
+      <h2 className="text-3xl font-bold mb-2" aria-label="Titre du jeu">Approprié ou Non</h2>
+      <p className="text-center text-lg mb-2" aria-label={`Score actuel ${score} sur ${allPhrases.length}`}>Score : {score} / {allPhrases.length}</p>
+      {!ended && <p className="text-center text-sm mb-6 text-gray-600" aria-label="Instruction du jeu">Fais glisser chaque phrase dans la bonne colonne.</p>}
 
-        <div className="columns">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-6xl mt-8">
+        <div
+          className="flex flex-col items-center bg-gray-100 border-2 border-gray-300 p-5 rounded-lg min-h-[300px] sm:min-h-[400px]"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={() => handleDrop('appropriate')}
+          aria-label="Colonne Approprié"
+        >
+          <div className="text-xl font-semibold mb-3">✅ Approprié</div>
+          {placedPhrases.appropriate.map((p, i) => (
           <div
-            className="column"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => handleDrop('appropriate')}
-          >
-            <div className="column-title good">Approprié ✔</div>
-          </div>
-
-          <div
-            className="column"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => handleDrop('inappropriate')}
-          >
-            <div className="column-title bad">Inapproprié ✖</div>
-          </div>
-        </div>
-
-        <div className="phrases">
-          {phrases.map((p, i) => (
-            <div
-              key={i}
-              className="phrase"
-              draggable
-              onDragStart={() => handleDragStart(i)}
-            >
-              {p.text}
-            </div>
+          key={i}
+          className={`w-[90%] text-white text-center text-lg py-3 rounded-lg mb-2 ${p.correct ? 'bg-green-500' : 'bg-red-400'}`}
+          aria-label={`Phrase ${p.text} ${p.correct ? 'correctement placée' : 'mal placée'}`}
+          >{p.text}</div>
           ))}
         </div>
 
-        {feedback && <p className="feedback">{feedback}</p>}
+        <div className="flex flex-col items-center gap-4" aria-label="Phrases à trier">
+          {phrases.map((p, i) => (
+            <div
+              key={i}
+              draggable
+              onDragStart={() => handleDragStart(i)}
+              className="w-[90%] text-white text-center text-lg py-3 rounded-lg bg-primary cursor-grab mb-2"
+              aria-label={`Phrase à déplacer: ${p.text}`}
+            >{p.text}</div>
+          ))}
+        </div>
 
-        {ended && (
-          <>
-            <h3 className="end">🎉 Jeu terminé</h3>
-            <p className="score">Score final : {score} / {allPhrases.length}</p>
-            <button className="btn-primary" onClick={initGame}>Rejouer</button>
-          </>
-        )}
-
-        <button className="btn-back" onClick={() => (window.location.href = '/games')}>
-          ⬅ Retour
-        </button>
+        <div
+          className="flex flex-col items-center bg-gray-100 border-2 border-gray-300 p-5 rounded-lg min-h-[300px] sm:min-h-[400px]"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={() => handleDrop('inappropriate')}
+          aria-label="Colonne Inapproprié"
+        >
+          <div className="text-xl font-semibold mb-3 text-red-700">❌ Inapproprié</div>
+          {placedPhrases.inappropriate.map((p, i) => (
+            <div
+              key={i}
+              className={`w-[90%] text-white text-center text-lg py-3 rounded-lg mb-2 ${p.correct ? 'bg-green-500' : 'bg-red-400'}`}
+              aria-label={`Phrase ${p.text} ${p.correct ? 'correctement placée' : 'mal placée'}`}
+            >{p.text}</div>
+          ))}
+        </div>
       </div>
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          background: #eef2f6;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 40px 20px;
-          width: 100%;
-        }
+      {feedback && <div className="text-center font-semibold mt-5 text-lg" aria-live="polite">{feedback}</div>}
 
-        .board {
-          background: #ffffffdd;
-          backdrop-filter: blur(8px);
-          padding: 30px;
-          width: 100%;
-          max-width: 900px;
-          border-radius: 20px;
-          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-          animation: fadeIn .3s ease;
-          text-align: center;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .title {
-          font-size: 32px;
-          font-weight: 700;
-          color: #3A63B7;
-          margin-bottom: 10px;
-        }
-
-        .subtitle {
-          color: #555;
-          margin-bottom: 25px;
-        }
-
-        .columns {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-          margin-bottom: 30px;
-        }
-
-        .column {
-          border: 3px dashed #c7cce3;
-          background: #f6f7fb;
-          border-radius: 14px;
-          padding: 20px;
-          min-height: 220px;
-        }
-
-        .column-title {
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 10px;
-        }
-
-        .good { color: #2a7a2a; }
-        .bad { color: #c20000; }
-
-        .phrases {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .phrase {
-          background: #3A63B7;
-          color: white;
-          padding: 14px 18px;
-          font-size: 17px;
-          border-radius: 12px;
-          cursor: grab;
-          width: 80%;
-          transition: transform .15s, opacity .15s;
-        }
-
-        .phrase:hover {
-          transform: scale(1.03);
-          opacity: .9;
-        }
-
-        .feedback {
-          margin-top: 20px;
-          font-size: 18px;
-          font-weight: 700;
-        }
-
-        .end {
-          color: #3A63B7;
-          font-size: 24px;
-          margin-top: 10px;
-        }
-
-        .btn-primary, .btn-back {
-          margin-top: 20px;
-          padding: 12px 25px;
-          border-radius: 10px;
-          border: none;
-          font-size: 16px;
-          cursor: pointer;
-          color: white;
-        }
-
-        .btn-primary {
-          background: #3A63B7;
-        }
-        .btn-primary:hover {
-          background: #2f4e8d;
-        }
-
-        .btn-back {
-          background: #888;
-          margin-top: 15px;
-        }
-        .btn-back:hover {
-          background: #666;
-        }
-        .force-center {
-          width: 100%;
-          max-width: 100%;
-          margin: 0 auto !important;
-          padding: 0 !important;
-          display: flex;
-          justify-content: center;
-        }
-
-      `}</style>
+      {ended && (
+        <div className="flex flex-col sm:flex-row gap-4 mt-5" aria-label="Boutons de fin de jeu">
+          <button onClick={initGame} className="px-6 py-2 bg-blue-600 text-white rounded-lg" aria-label="Rejouer le jeu">Rejouer</button>
+          <button onClick={handleQuit} className="px-6 py-2 bg-red-600 text-white rounded-lg" aria-label="Quitter le jeu">Quitter le jeu</button>
+        </div>
+      )}
     </main>
   );
 }
