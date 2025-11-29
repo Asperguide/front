@@ -1,99 +1,182 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>AsperGuide Bootstrap</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-5">
+  <meta charset="UTF-8" />
+  <title>AsperGuide - Accueil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img src="assets/Asperguide_logo_3.png" width="30" height="30" alt="Logo">
+  <style>
+    body {
+      background: #f5f7fb;
+      font-family: "Inter", sans-serif;
+    }
+
+    .bg-custom-primary {
+      background-color: #3A63B7 !important;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #3A63B7, #91a7ff);
+      border-bottom-left-radius: 60px;
+      border-bottom-right-radius: 60px;
+      padding: 200px 20px;
+      color: white;
+    }
+
+    .character-img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .feature-box {
+      background: #3A63B7;
+      color: white;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateX(30px);
+      transition: all 0.7s ease-out;
+    }
+
+    .feature-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg py-3 shadow-sm fixed-top" style="backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.75); border-radius: 20px; margin: 20px auto; width: 92%; max-width: 1200px;">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center fw-bold text-dark" href="#" style="font-size: 1.35rem;">
+      <img src="assets/Asperguide_logo_3.png" width="40" height="40" class="me-2 rounded-circle shadow-sm" alt="Logo">
+      <span>AsperGuide</span>
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="menu">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="offres.html">Nos offre</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav mx-auto gap-3">
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="dashboard.html">Tableau de bord</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="guide.html">Guide</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="games.html">Jeux</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="rewards.html">Récompenses</a></li>
       </ul>
-      <a href="login.html" class="btn-outline-light ms-auto">Connexion</a>
+
+      <a href="profil.html" class="btn fw-semibold px-3 py-2 rounded-pill shadow-sm" style="background:#3A63B7; color: white;">Profil</a>
     </div>
   </div>
 </nav>
 
-<!-- Hero Section -->
-<section class="bg-primary text-white text-center py-5">
-  <div class="container">
-    <h1 class="display-4">Bienvenue sur AsperGuide</h1>
-    <p class="lead">Votre guide pour accompagner les enfants et adolescents atteints du syndrome d'Asperger.</p>
-    <a href="#" class="btn btn-light btn-lg mt-3">Commencer</a>
-  </div>
-</section>
 
-<!-- Offres d'abonnement -->
-<section class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-5">Nos Offres</h2>
-    <div class="row g-4">
-      <!-- Carte Offre Basique-->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Basique</h5>
-            <p class="card-text">Accès aux fonctionnalités principales et au guide pré-diagnostique.</p>
-            <h6 class="card-price">10€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
-        </div>
-      </div>
+<style>
+  .hover-link {
+    transition: all 0.25s ease;
+    border-radius: 12px;
+    padding: 6px 14px !important;
+  }
+  .hover-link:hover {
+    background: rgba(74, 144, 226, 0.15);
+    color: #2a5fba !important;
+  }
+</style>
 
-      <!-- Carte Offre Standard -->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Standard</h5>
-            <p class="card-text">Fonctionnalités du Basique + jeux et animations interactives.</p>
-            <h6 class="card-price">20€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
-        </div>
-      </div>
 
-      <!-- Carte Offre Premium -->
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <div class="card-body">
-            <h5 class="card-title">Offre Premium</h5>
-            <p class="card-text">Accès complet, suivi personnalisé et supports avancés.</p>
-            <h6 class="card-price">30€/mois</h6>
-            <a href="#" class="btn btn-primary mt-3">S'abonner</a>
-          </div>
+  <!-- Hero Section -->
+  <section class="hero text-center">
+    <div class="container">
+      <h1 class="display-5 fw-bold">Bienvenue sur AsperGuide</h1>
+      <p class="lead mt-3">Votre guide pour accompagner les enfants et adolescents atteints du syndrome d'Asperger.</p>
+      <a href="#" class="btn btn-light btn-lg rounded-pill mt-4 px-5">Commencer</a>
+    </div>
+  </section>
+
+  <!-- 4 Colonnes Personnages -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row text-center g-4">
+
+        <div class="col-md-3">
+          <img src="assets/left_back_people.png" class="character-img mb-3" alt="Adulte adossé" />
+          <p class="fw-semibold">Pourquoi mon enfant a-t-il des difficultés à s'intégrer à l'école ?</p>
         </div>
+
+        <div class="col-md-3">
+          <img src="assets/right_back_people.png" class="character-img mb-3" alt="Enfant adossé" />
+          <p class="fw-semibold">Pourquoi ai-je du mal à me faire des amis à l'école ?</p>
+        </div>
+
+        <div class="col-md-3">
+          <img src="assets/old_people_diag.png" class="character-img mb-3" alt="Adulte diagnostic" />
+          <p class="fw-semibold">Un parcours clair vers le diagnostic.</p>
+        </div>
+
+        <div class="col-md-3">
+          <img src="assets/young_people_diag.png" class="character-img mb-3" alt="Enfant diagnostic" />
+          <p class="fw-semibold">Comprendre ses différences pour mieux avancer.</p>
+        </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4 mt-5">
-  <div class="container">
-    <p class="mb-1">&copy; 2025 AsperGuide. Tous droits réservés.</p>
-    <p class="mb-0">
-      <a href="#" class="text-white me-3">Politique de confidentialité</a>
-      <a href="#" class="text-white">Contact</a>
-    </p>
-  </div>
-</footer>
+  <!-- Features Section -->
+  <section class="py-5 bg-light">
+    <div class="container" id="features">
 
+      <div class="feature-box mb-4">
+        <h3 class="fw-bold">Outil éducatif</h3>
+        <p>Des ressources adaptées pour accompagner l'enfant.</p>
+      </div>
 
-  <!-- Bootstrap JS -->
+      <div class="feature-box mb-4">
+        <h3 class="fw-bold">Suivi personnalisé</h3>
+        <p>Un parcours clair et structuré.</p>
+      </div>
+
+      <div class="feature-box mb-4">
+        <h3 class="fw-bold">Guides experts</h3>
+        <p>Des explications simples et accessibles.</p>
+      </div>
+
+      <div class="feature-box mb-4">
+        <h3 class="fw-bold">Accompagnement familial</h3>
+        <p>Des conseils pour le quotidien.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+      <p class="mb-1">&copy; 2025 AsperGuide. Tous droits réservés.</p>
+      <p class="mb-0">
+        <a href="#" class="text-white me-3">Politique de confidentialité</a>
+        <a href="#" class="text-white">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const featureBoxes = document.querySelectorAll('.feature-box');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('feature-visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    featureBoxes.forEach(box => observer.observe(box));
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
