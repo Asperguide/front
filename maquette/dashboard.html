@@ -33,42 +33,47 @@
     }
 
     /* --- HERO ----- */
-    .hero-db {
+    .hero {
       background: linear-gradient(135deg, #3A63B7, #91a7ff);
-      padding: 140px 20px 160px 20px;
-      text-align: center;
+      padding: 200px 20px 250px 20px;
       color: white;
-      position: relative;
+      position: relative; 
       overflow: hidden;
+      border-bottom-left-radius: 20%;
+      border-bottom-right-radius: 20%;
     }
 
-    .hero-db::before {
+    /* Forme 1*/
+    .hero::before {
       content: "";
       position: absolute;
-      top: 40px;
+      top: 50px;
       right: -80px;
-      width: 280px;
-      height: 280px;
+      width: 300px;
+      height: 300px;
       background: rgba(255, 255, 255, 0.15);
-      border-radius: 50% 40% 60% 30% / 40% 60% 40% 60%;
-      z-index: 1;
+      border-radius: 60% 40% 70% 30% / 30% 70% 30% 70%;
+      z-index: 1; 
+      transition: all 1s ease-in-out;
     }
 
-    .hero-db::after {
+    /* Forme 2 */
+    .hero::after {
       content: "";
       position: absolute;
-      bottom: 40px;
-      left: -60px;
+      bottom: 50px;
+      left: -50px;
       width: 250px;
       height: 250px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 30% 70% 50% 50% / 60% 40% 60% 40%;
-      z-index: 1;
+      z-index: 1; 
+      transition: all 1s ease-in-out;
     }
-
-    .hero-db .container {
-      position: relative;
-      z-index: 2;
+    
+    .hero .container {
+        position: relative;
+        z-index: 2; 
     }
 
     /* --- CARDS --- */
@@ -136,13 +141,12 @@
 
 
 <!-- HERO -->
-<section class="hero-db">
+<section class="hero text-center">
   <div class="container">
     <h1 class="display-5 fw-bold">Votre Tableau de Bord</h1>
     <p class="lead mt-3">Suivez votre progression et explorez vos activités personnalisées.</p>
   </div>
 </section>
-
 
 <div class="section-separator-line"></div>
 

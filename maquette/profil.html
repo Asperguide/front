@@ -32,13 +32,46 @@
     }
     
     .hero {
-      background: var(--color-primary-blue);
-      border-bottom-left-radius: 40px; 
-      border-bottom-right-radius: 40px;
-      padding: 200px 20px 40px; 
+      background: linear-gradient(135deg, #3A63B7, #91a7ff);
+      padding: 200px 20px 250px 20px;
       color: white;
-      text-align: center;
-      margin-top: -60px;
+      position: relative; 
+      overflow: hidden;
+      border-bottom-left-radius: 20%;
+      border-bottom-right-radius: 20%;
+    }
+
+    /* Forme 1*/
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 50px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 60% 40% 70% 30% / 30% 70% 30% 70%;
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+
+    /* Forme 2 */
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 50px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30% 70% 50% 50% / 60% 40% 60% 40%;
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+    
+    .hero .container {
+        position: relative;
+        z-index: 2; 
     }
 
     .profile-picture {
@@ -121,7 +154,7 @@
   </div>
 </nav>
 
-<section class="hero mb-5">
+<section class="hero text-center">
   <div class="container">
     <img src="assets/profile_placeholder.png" alt="Photo de profil" class="profile-picture mb-3 shadow">
     <h1 class="h3 fw-bold mb-1">Bienvenue, Alex !</h1>

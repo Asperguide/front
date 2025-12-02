@@ -8,11 +8,10 @@
   
   <style>
     body {
-      background: #f4f6fc; /* → clair */
+      background: #f4f6fc;
       font-family: "Inter", sans-serif;
     }
 
-    /* Navbar translucide */
     .navbar-custom {
       backdrop-filter: blur(12px);
       background: rgba(255, 255, 255, 0.75);
@@ -23,7 +22,6 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    /* Hover links */
     .hover-link {
       transition: all 0.25s ease;
       border-radius: 12px;
@@ -36,16 +34,15 @@
       transition: all 0.25s ease;
     }
 
-    /* Carte : bleu foncé + texte blanc */
     .register-card {
+      margin-top: 100px;
       border-radius: 25px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      background: #3A63B7; /* → bleu */
+      background: #3A63B7;
       padding: 40px;
-      color: white; /* → contenu en blanc */
+      color: white;
     }
 
-    /* Inputs : bleu clair + texte blanc */
     .register-card .form-control {
       background: rgba(255,255,255,0.15);
       border: none;
@@ -55,7 +52,6 @@
       color: #e6e6e6;
     }
 
-    /* Bouton clair avec texte bleu */
     .btn-primary-custom {
       background: white !important;
       color: #3A63B7 !important;
@@ -69,7 +65,6 @@
       background: #e8e8e8 !important;
     }
 
-    /* Footer clair pour cohérence */
     footer {
       background: white !important;
       color: #333 !important;
@@ -123,6 +118,31 @@
       <div class="mb-3">
         <label for="email" class="form-label text-white">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Votre email">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-white d-block">Tranche d'âge :</label>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="age" id="age-enfant" value="enfant">
+          <label class="form-check-label text-white" for="age-enfant">
+            Enfant
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="age" id="age-ado" value="adolescents">
+          <label class="form-check-label text-white" for="age-ado">
+            Adolescents
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="age" id="age-adulte" value="adulte">
+          <label class="form-check-label text-white" for="age-adulte">
+            Adulte
+          </label>
+        </div>
       </div>
 
       <div class="mb-3">
