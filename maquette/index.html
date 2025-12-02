@@ -15,14 +15,62 @@
       background-color: #3A63B7 !important;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #3A63B7, #91a7ff);
-      border-bottom-left-radius: 60px;
-      border-bottom-right-radius: 60px;
-      padding: 200px 20px;
-      color: white;
+    /* Navbar cachée */
+    .navbar-hidden {
+      transform: translateY(-120%);
+      transition: transform 0.4s ease;
     }
 
+    /* Navbar visible */
+    .navbar {
+      transition: transform 0.4s ease;
+    }
+
+    /* --- Style pour la Section Hero --- */
+    .hero {
+      background: linear-gradient(135deg, #3A63B7, #91a7ff);
+      padding: 200px 20px 250px 20px;
+      color: white;
+      position: relative; 
+      overflow: hidden;
+      border-bottom-left-radius: 20%;
+      border-bottom-right-radius: 20%;
+    }
+
+    /* Forme décorative 1: Cercle plus doux et décalé */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 50px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 60% 40% 70% 30% / 30% 70% 30% 70%; /* Forme Blob/Arrondie Abstraite */
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+
+    /* Forme décorative 2: Forme Blob en bas à gauche */
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 50px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30% 70% 50% 50% / 60% 40% 60% 40%; /* Forme Blob/Arrondie Abstraite */
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+    
+    .hero .container {
+        position: relative;
+        z-index: 2; 
+    }
+
+    /* --- Style pour les Images de Personnages --- */
     .character-img {
       width: 150px;
       height: 150px;
@@ -32,25 +80,43 @@
       background: #3A63B7;
       color: white;
       padding: 40px;
-      border-radius: 25px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
       opacity: 0;
       transform: translateX(30px);
       transition: all 0.7s ease-out;
+      border-left: 8px solid #91a7ff; 
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 40px;
     }
 
     .feature-visible {
       opacity: 1;
       transform: translateX(0);
     }
+
+    /* --- Séparateur Décoratif Ligne Douce --- */
+    .section-separator-line {
+        width: 150px;
+        height: 5px;
+        background: linear-gradient(to right, #3A63B7, #91a7ff);
+        margin: 50px auto;
+        border-radius: 5px;
+    }
+
+    /* --- Footer --- */
+    .footer {
+        border-top-left-radius: 100%;
+        border-top-right-radius: 100%;
+    }
   </style>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg py-3 shadow-sm fixed-top" style="backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.75); border-radius: 20px; margin: 20px auto; width: 92%; max-width: 1200px;">
+<nav class="navbar navbar-expand-lg py-3 shadow-sm fixed-top" style="backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.75); border-radius: 20px; margin: 20px auto; width: 92%; max-width: 1200px;">
   <div class="container-fluid px-4">
-    <a class="navbar-brand d-flex align-items-center fw-bold text-dark" href="#" style="font-size: 1.35rem;">
+    <a class="navbar-brand d-flex align-items-center fw-bold text-dark" href="index.html" style="font-size: 1.35rem;">
       <img src="assets/Asperguide_logo_3.png" width="40" height="40" class="me-2 rounded-circle shadow-sm" alt="Logo">
       <span>AsperGuide</span>
     </a>
@@ -61,14 +127,13 @@
 
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav mx-auto gap-3">
-        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="index.html">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="dashboard.html">Tableau de bord</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link active" aria-current="page" href="index.html">Accueil</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="guide.html">Guide</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="games.html">Jeux</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="rewards.html">Récompenses</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold text-dark hover-link" href="Contact.html">Contact</a></li>
       </ul>
 
-      <a href="profil.html" class="btn fw-semibold px-3 py-2 rounded-pill shadow-sm" style="background:#3A63B7; color: white;">Profil</a>
+      <a href="login.html" class="btn fw-semibold px-3 py-2 rounded-pill shadow-sm" style="background:#3A63B7; color: white;">Connexion</a>
     </div>
   </div>
 </nav>
@@ -87,12 +152,11 @@
 </style>
 
 
-  <!-- Hero Section -->
   <section class="hero text-center">
     <div class="container">
       <h1 class="display-5 fw-bold">Bienvenue sur AsperGuide</h1>
       <p class="lead mt-3">Votre guide pour accompagner les enfants et adolescents atteints du syndrome d'Asperger.</p>
-      <a href="#" class="btn btn-light btn-lg rounded-pill mt-4 px-5">Commencer</a>
+      <a href="#" class="btn btn-light btn-lg rounded-pill mt-4 px-5 fw-bold shadow">Commencer</a>
     </div>
   </section>
 
@@ -125,40 +189,48 @@
     </div>
   </section>
 
-  <!-- Features Section -->
+  <div class="section-separator-line"></div>
+
+
   <section class="py-5 bg-light">
     <div class="container" id="features">
+        <h2 class="text-center fw-bold mb-5" style="color: #3A63B7;">Nos Fonctionnalités Clés</h2>
 
-      <div class="feature-box mb-4">
-        <h3 class="fw-bold">Outil éducatif</h3>
-        <p>Des ressources adaptées pour accompagner l'enfant.</p>
+      <div class="row g-4">
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3 class="fw-bold">Outil éducatif</h3>
+                <p>Des ressources adaptées et interactives pour accompagner l'enfant dans son développement et ses apprentissages.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3 class="fw-bold">Suivi personnalisé</h3>
+                <p>Un parcours clair et structuré, permettant de suivre les progrès et d'adapter les activités aux besoins spécifiques de chacun.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3 class="fw-bold">Guides experts</h3>
+                <p>Des explications simples et accessibles, rédigées par des spécialistes, pour éclairer les parents et les éducateurs.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3 class="fw-bold">Accompagnement familial</h3>
+                <p>Des conseils pratiques pour gérer le quotidien, favoriser la communication et renforcer les liens au sein de la famille.</p>
+            </div>
+        </div>
       </div>
-
-      <div class="feature-box mb-4">
-        <h3 class="fw-bold">Suivi personnalisé</h3>
-        <p>Un parcours clair et structuré.</p>
-      </div>
-
-      <div class="feature-box mb-4">
-        <h3 class="fw-bold">Guides experts</h3>
-        <p>Des explications simples et accessibles.</p>
-      </div>
-
-      <div class="feature-box mb-4">
-        <h3 class="fw-bold">Accompagnement familial</h3>
-        <p>Des conseils pour le quotidien.</p>
-      </div>
-
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-4 mt-5">
+  <footer class="bg-dark text-white text-center py-4 mt-5 footer">
     <div class="container">
       <p class="mb-1">&copy; 2025 AsperGuide. Tous droits réservés.</p>
       <p class="mb-0">
-        <a href="#" class="text-white me-3">Politique de confidentialité</a>
-        <a href="#" class="text-white">Contact</a>
+        <a href="#" class="text-white me-3 text-decoration-none hover-link">Politique de confidentialité</a>
+        <a href="#" class="text-white text-decoration-none hover-link">Contact</a>
       </p>
     </div>
   </footer>
@@ -179,4 +251,39 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<!-- script pour simuler l'affichage de la navbar -->
+<script>
+  let scrollTimeout = null;
+  const navbar = document.querySelector("nav.navbar");
+
+  if (window.scrollY === 0) {
+    navbar.classList.remove("navbar-hidden");
+  } else {
+    navbar.classList.add("navbar-hidden");
+  }
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY === 0) {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = null;
+      }
+      navbar.classList.remove("navbar-hidden");
+      return;
+    }
+
+    navbar.classList.remove("navbar-hidden");
+
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+
+    scrollTimeout = setTimeout(() => {
+      navbar.classList.add("navbar-hidden");
+      scrollTimeout = null;
+    }, 800);
+  });
+</script>
+
+
+
 </html>

@@ -30,14 +30,48 @@
       color: var(--color-primary-blue) !important;
     }
     
+  /* --- Style pour la Section Hero --- */
     .hero {
-      background: var(--color-primary-blue);
-      border-bottom-left-radius: 40px; 
-      border-bottom-right-radius: 40px;
-      padding: 200px 20px 40px; 
+      background: linear-gradient(135deg, #3A63B7, #91a7ff);
+      padding: 200px 20px 250px 20px;
       color: white;
-      text-align: center;
-      margin-top: -60px; 
+      position: relative; 
+      overflow: hidden;
+      border-bottom-left-radius: 20%;
+      border-bottom-right-radius: 20%;
+    }
+
+    /* Forme décorative 1: Cercle plus doux et décalé */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 50px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 60% 40% 70% 30% / 30% 70% 30% 70%; /* Forme Blob/Arrondie Abstraite */
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+
+    /* Forme décorative 2: Forme Blob en bas à gauche */
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: 50px;
+      left: -50px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30% 70% 50% 50% / 60% 40% 60% 40%; /* Forme Blob/Arrondie Abstraite */
+      z-index: 1; 
+      transition: all 1s ease-in-out;
+    }
+    
+    .hero .container {
+        position: relative;
+        z-index: 2; 
     }
 
     .nav-tabs {
@@ -176,7 +210,7 @@
 
   <nav class="navbar navbar-expand-lg py-3 shadow-sm fixed-top" style="backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.75); border-radius: 20px; margin: 20px auto; width: 92%; max-width: 1200px;">
     <div class="container-fluid px-4">
-      <a class="navbar-brand d-flex align-items-center fw-bold text-dark" href="#" style="font-size: 1.35rem;">
+      <a class="navbar-brand d-flex align-items-center fw-bold text-dark" href="home.html" style="font-size: 1.35rem;">
         <img src="assets/Asperguide_logo_3.png" width="40" height="40" class="me-2 rounded-circle shadow-sm" alt="Logo">
         <span>AsperGuide</span>
       </a>
@@ -199,9 +233,9 @@
     </div>
   </nav>
 
-  <section class="hero">
+  <section class="hero text-center">
     <div class="container">
-      <h1>Espace de Jeux</h1>
+      <h1 class="display-5 fw-bold">Espace de Jeux</h1>
       <p class="lead mt-3">Choisissez votre parcours : suivez une histoire progressive ou explorez nos mini-jeux.</p>
     </div>
   </section>
