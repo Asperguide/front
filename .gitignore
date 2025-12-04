@@ -22,7 +22,7 @@
 # PROJECT: AsperGuide
 # FILE: .gitignore
 # CREATION DATE: 09-10-2025
-# LAST Modified: 13:1:10 17-10-2025
+# LAST Modified: 20:9:17 04-12-2025
 # DESCRIPTION: 
 # This is the .gitignore file of the project, the file telling git which content to send or not.
 # /STOP
@@ -256,6 +256,7 @@ tts_server
 
 # No Node modules
 **/node_modules/**
+**/.npm/**
 
 # No next build artifacts
 **/.next/**
