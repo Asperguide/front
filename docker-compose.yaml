@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 0:1:28 03-11-2025
+# LAST Modified: 13:11:55 04-12-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -44,6 +44,11 @@ services:
     extends:
       file: ./back-end/docker-compose.yaml
       service: db-cache
+
+  bucket:
+    extends:
+      file: ./back-end/docker-compose.yaml
+      service: bucket
 
   backend:
     extends:
@@ -108,6 +113,10 @@ volumes:
     external: true
     name: "server-data"
 
+  bucket-data:
+    external: true
+    name: "bucket-data"
+
   front-end-data:
     name: "front-end-data"
     driver: local
@@ -123,6 +132,9 @@ volumes:
 networks:
   db-to-back:
     name: "db-to-back"
+
+  bucket-to-back:
+    name: "bucket-to-back"
 
   back-to-front:
     name: "back-to-front"
