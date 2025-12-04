@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: docker-compose.yaml
 # CREATION DATE: 16-10-2025
-# LAST Modified: 18:55:15 04-12-2025
+# LAST Modified: 19:48:45 04-12-2025
 # DESCRIPTION:
 # This is the docker compose of the project, it allows the server to spin up and have access to all the other ressources it needs.
 # /STOP
@@ -85,28 +85,72 @@ services:
 
 volumes:
   database-data:
-    external: true
     name: "database-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./back-end/docker/db/data
+    labels:
+      com.asperguide_database.description: "Asperguide Database Data"
+      com.asperguide_database.department: "IT/DB"
+      com.asperguide_database.role: "Volume in charge of storing the database cache so that the database persists after the container gets removed."
 
   database-initialisation-data:
-    external: true
     name: "database-initialisation-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./back-end/docker/db/sql
+    labels:
+      com.asperguide_database.description: "Asperguide Database Data"
+      com.asperguide_database.department: "IT/DB"
+      com.asperguide_database.role: "Volume in charge of storing the database cache so that the database persists after the container gets removed."
 
   redis-sock:
-    external: true
     name: "redis-sock"
+    labels:
+      com.redis-sock.description: "Asperguide Redis socket"
+      com.redis-sock.department: "IT/Network"
+      com.redis-sock.role: "The redis socket for the connection between the backend and the redis instance."
+    driver: local
 
   redis-data:
-    external: true
     name: "redis-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./back-end/docker/redis/data
+    labels:
+      com.redis-data.description: "Asperguide Redis peristent data"
+      com.redis-data.department: "IT/DB"
+      com.redis-data.role: "The redis persistent cache between container reboots"
 
   server-data:
-    external: true
     name: "server-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./back-end/backend
+    labels:
+      com.asperguide_data.description: "Asperguide Server Data"
+      com.asperguide_data.department: "IT/Ai"
+      com.asperguide_data.role: "Volume in charge of storing the server data so that it persists after the container gets removed."
 
   bucket-data:
-    external: true
     name: "bucket-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "./back-end/docker/bucket/data"
+    labels:
+      com.asperguide_data.description: "Asperguide Minio Data"
+      com.asperguide_data.department: "IT/DB"
+      com.asperguide_data.role: "Volume in charge of allowing the minio container (imitating the cellar storage from Clever Cloud) to persist it's data between runs."
 
   front-end-data:
     name: "front-end-data"
