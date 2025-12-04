@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: Dockerfile.front
 # CREATION DATE: 16-10-2025
-# LAST Modified: 6:24:9 05-11-2025
+# LAST Modified: 18:11:36 28-11-2025
 # DESCRIPTION: 
 # The dockerfile in charge of setting up the required dependencies for the frontend code.
 # /STOP
@@ -38,8 +38,7 @@ ENV LOCATION=frontend \
     HOME=/app \
     PRODUCTION="false" \
     SOURCE_CODE_FOLDER="asperguide" \
-    START_SCRIPT_PATH="/" \
-    START_SCRIPT="${START_SCRIPT_PATH}entrypoint.sh"
+    START_SCRIPT="/entrypoint.sh"
 
 # Update the list of packages and add bash
 RUN apk update && apk add bash
@@ -100,4 +99,4 @@ RUN echo '#!/bin/bash' > ${START_SCRIPT} \
 
 EXPOSE 3000
 
-CMD ["chmod +x ${START_SCRIPT} && ${START_SCRIPT}"]
+CMD chmod +x ${START_SCRIPT} && ${START_SCRIPT}
