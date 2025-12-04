@@ -22,7 +22,7 @@
 # PROJECT: AsperHeader
 # FILE: Dockerfile.front
 # CREATION DATE: 16-10-2025
-# LAST Modified: 18:11:36 28-11-2025
+# LAST Modified: 20:1:31 04-12-2025
 # DESCRIPTION: 
 # The dockerfile in charge of setting up the required dependencies for the frontend code.
 # /STOP
@@ -71,6 +71,10 @@ RUN echo '#!/bin/bash' > ${START_SCRIPT} \
     && echo 'cd ${HOME}' >> ${START_SCRIPT} \
     && echo '# Setting exit on error' >> ${START_SCRIPT} \
     && echo 'set -e' >> ${START_SCRIPT} \
+    && echo 'echo "removing the .npm folder if it exists"' >> ${START_SCRIPT} \
+    && echo 'rm -rf .npm'\
+    && echo 'echo "removing the node_modules folder if it exists"' >> ${START_SCRIPT} \
+    && echo 'rm -rf node_modules'\
     && echo 'echo "Making sure the dependencies are installed..."' >> ${START_SCRIPT} \
     && echo 'if [ "\${PRODUCTION}" == "true" ]; then' >> ${START_SCRIPT} \
     && echo -e '\techo "Installing production dependencies only..."' >> ${START_SCRIPT} \
